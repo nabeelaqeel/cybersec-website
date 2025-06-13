@@ -16,6 +16,18 @@ const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.getElementById('chatInput');
 const sendChatBtn = document.getElementById('sendChatBtn');
 
+// Show learning module on Start Learning click
+document.getElementById('startLearningBtn').addEventListener('click', function() {
+    document.getElementById('learningModule').classList.remove('hidden');
+    document.getElementById('mainApp').classList.add('hidden');
+});
+
+// Close learning module
+document.getElementById('closeLearningBtn').addEventListener('click', function() {
+    document.getElementById('learningModule').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+});
+
 // Sample chat scenarios
 const scenarios = [
     {
@@ -339,3 +351,4 @@ function resetQuiz() {
     quizResult.style.display = 'none';
     quizProgressBar.style.width = '0%';
 }
+
