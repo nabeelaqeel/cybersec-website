@@ -28,6 +28,38 @@ document.getElementById('closeLearningBtn').addEventListener('click', function()
     document.getElementById('mainApp').classList.remove('hidden');
 });
 
+
+// Profile modal functionality
+document.getElementById('profileBtn').addEventListener('click', function() {
+    document.getElementById('profileModal').classList.remove('hidden');
+});
+document.getElementById('closeProfileBtn').addEventListener('click', function() {
+    document.getElementById('profileModal').classList.add('hidden');
+});
+
+// Leaderboard modal functionality
+document.getElementById('leaderboardBtn').addEventListener('click', function() {
+    document.getElementById('leaderboardModal').classList.remove('hidden');
+});
+document.getElementById('closeLeaderboardBtn').addEventListener('click', function() {
+    document.getElementById('leaderboardModal').classList.add('hidden');
+});
+
+
+// Avatar edit and change functionality
+document.getElementById('editAvatarBtn').addEventListener('click', function() {
+    document.getElementById('changeAvatarBtn').classList.toggle('hidden');
+});
+
+document.getElementById('changeAvatarBtn').addEventListener('click', function() {
+    // Generate a random seed for the avatar
+    const randomSeed = 'User' + Math.floor(Math.random() * 100000);
+    const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(randomSeed)}&t=${Date.now()}`;
+    document.getElementById('profileAvatar').src = avatarUrl;
+});
+
+
+
 // Sample chat scenarios
 const scenarios = [
     {
@@ -169,19 +201,18 @@ const quizQuestions = [
         options: [
             { text: "They value your privacy", correct: false, feedback: "No, this is a major red flag. Predators often ask victims to keep conversations secret." },
             { text: "They might be planning something inappropriate", correct: true, feedback: "Correct! This is a classic grooming tactic to isolate victims." },
-            { text: "They're just being cautious", correct: false, feedback: "No, legitimate friends don't ask you to keep all conversations secret." },
+            { text: "They're just being cautious", correct: false, feedback: "No, legitimate friends don’t ask you to keep all conversations secret." },
             { text: "They're shy about their interests", correct: false, feedback: "This is unlikely. Secrecy is a warning sign of grooming behavior." }
         ]
     },
     {
         question: "What should you do if someone online makes you uncomfortable?",
         options: [
-            { text: "Ignore it and hope they stop", correct: false, feedback: "This isn't the best approach. You should take action to protect yourself." },
-            { text: "Tell them directly that you're uncomfortable", correct: true, feedback: "Good! Being clear about boundaries is important." },
-            { text: "Block them and tell a trusted adult", correct: true, feedback: "Excellent! This is the safest approach." },
-            { text: "Try to understand why they're acting that way", correct: false, feedback: "While empathy is good, your safety comes first in these situations." }
-        ],
-        note: "Note: There are two correct answers for this question."
+            { text: "Ignore it and hope they stop", correct: false, feedback: "This isn’t the best approach. You should take action to protect yourself." },
+            { text: "Tell them directly that you're uncomfortable", correct: false, feedback: "This might help, but the safest option is to block and report them." },
+            { text: "Block them and tell a trusted adult", correct: true, feedback: "Correct! This is the safest and most responsible action." },
+            { text: "Try to understand why they're acting that way", correct: false, feedback: "Your safety is more important than understanding their reasons." }
+        ]
     },
     {
         question: "Someone compliments you excessively and says you're 'mature for your age'. What does this likely mean?",
@@ -189,19 +220,65 @@ const quizQuestions = [
             { text: "They genuinely admire your personality", correct: false, feedback: "This is unlikely. Predators often use this phrase to groom young people." },
             { text: "They might be trying to manipulate you", correct: true, feedback: "Correct! This is a common grooming tactic to make you feel special." },
             { text: "They're just being friendly", correct: false, feedback: "Excessive compliments about maturity are often a red flag." },
-            { text: "They want to be your mentor", correct: false, feedback: "Legitimate mentors don't use this kind of language with young people." }
+            { text: "They want to be your mentor", correct: false, feedback: "Legitimate mentors don’t use this kind of language with young people." }
         ]
     },
     {
         question: "What personal information is generally safe to share online?",
         options: [
-            { text: "Your full name and address", correct: false, feedback: "Never share this information with people you don't know in real life." },
+            { text: "Your full name and address", correct: false, feedback: "Never share this information with people you don’t know in real life." },
             { text: "Your favorite movies and hobbies", correct: true, feedback: "Correct! General interests are usually safe to share." },
-            { text: "Your school name and schedule", correct: false, feedback: "This could help someone locate you in real life - never share this." },
-            { text: "Your phone number and email", correct: false, feedback: "Never share contact information with strangers online." }
+            { text: "Your school name and schedule", correct: false, feedback: "This could help someone locate you — never share it online." },
+            { text: "Your phone number and email", correct: false, feedback: "This is private information and should not be shared online." }
+        ]
+    },
+    {
+        question: "Why might an online predator try to isolate you from friends and family?",
+        options: [
+            { text: "So they can surprise you with a gift", correct: false, feedback: "Predators isolate to gain control, not to surprise you." },
+            { text: "So you trust them more than others", correct: true, feedback: "Correct! Isolation is a grooming tactic to gain full influence over you." },
+            { text: "Because they feel shy around groups", correct: false, feedback: "This is a manipulation tactic, not shyness." },
+            { text: "So they can help you focus better", correct: false, feedback: "This is not a healthy reason and is likely manipulation." }
+        ]
+    },
+    {
+        question: "If someone sends you an inappropriate image, what should you do?",
+        options: [
+            { text: "Reply to ask why they sent it", correct: false, feedback: "Do not engage. It could encourage further harm." },
+            { text: "Delete it and pretend it didn’t happen", correct: false, feedback: "You should take action, not ignore it." },
+            { text: "Save it to show your friends", correct: false, feedback: "Never share or keep inappropriate content — it’s illegal and harmful." },
+            { text: "Report them and tell a trusted adult", correct: true, feedback: "Correct! Reporting and telling an adult is the responsible step." }
+        ]
+    },
+    {
+        question: "A stranger in an online game wants to chat privately and sends you a link. What should you do?",
+        options: [
+            { text: "Click the link to see what it is", correct: false, feedback: "Links from strangers could be harmful or phishing scams." },
+            { text: "Join the private chat out of curiosity", correct: false, feedback: "Avoid private chats with strangers — it’s risky." },
+            { text: "Ignore them or report the behavior", correct: true, feedback: "Correct! This is the safest way to handle suspicious behavior." },
+            { text: "Tell them to ask in the main chat", correct: false, feedback: "Even if moved to the main chat, the person could still be harmful." }
+        ]
+    },
+    {
+        question: "Which of these is a red flag in online conversations?",
+        options: [
+            { text: "They ask you about your hobbies", correct: false, feedback: "That’s a normal question — not a red flag by itself." },
+            { text: "They want to know your favorite movies", correct: false, feedback: "General questions are usually safe." },
+            { text: "They ask you not to tell anyone about your chats", correct: true, feedback: "Correct! This is a common predator tactic." },
+            { text: "They send you memes and jokes", correct: false, feedback: "This is normal unless the content becomes inappropriate." }
+        ]
+    },
+    {
+        question: "What’s the most important step to protect yourself online?",
+        options: [
+            { text: "Have lots of online friends", correct: false, feedback: "More friends doesn’t mean more safety." },
+            { text: "Share less and keep profiles private", correct: true, feedback: "Correct! Controlling what you share protects your identity." },
+            { text: "Use the same password everywhere", correct: false, feedback: "This puts all your accounts at risk." },
+            { text: "Reply to everyone to be polite", correct: false, feedback: "You don’t owe strangers a reply — your safety comes first." }
         ]
     }
 ];
+
 
 let currentQuestionIndex = 0;
 let score = 0;

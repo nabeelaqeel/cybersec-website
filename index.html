@@ -119,6 +119,93 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Place this after the closing </section> of your Stats Section, before </main> -->
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-center">📂 Resources</h3>
+                <div class="space-y-8">
+
+                    <!-- 1. Downloadable PDF Guide for Teens -->
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h4 class="text-xl font-bold mb-2 flex items-center"><span class="mr-2">📄</span> Downloadable PDF Guide for Teens</h4>
+                        <p class="mb-2 font-semibold">Stay Safe Online: A Teen’s Guide to Spotting Predators</p>
+                        <ul class="list-disc ml-6 text-gray-300 mb-2">
+                            <li>Summary of grooming stages</li>
+                            <li>Do’s and Don’ts online</li>
+                            <li>Reporting steps</li>
+                            <li>Hotline numbers</li>
+                        </ul>
+                        <a href="teens-online-safety-guide.pdf" download class="inline-block mt-2 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-600 font-bold">
+                            📥 Download PDF
+                        </a>
+                        <div class="text-xs text-gray-400 mt-2">Based on NASCA & MCMC resources</div>
+                    </div>
+
+                    <!-- 2. Parental Guide -->
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h4 class="text-xl font-bold mb-2 flex items-center"><span class="mr-2">👨‍👩‍👧</span> Parental Guide: Talking to Teens about Online Dangers</h4>
+                        <p class="mb-2 font-semibold">Digital Parenting: How to Talk About Online Safety</p>
+                        <ul class="list-disc ml-6 text-gray-300 mb-2">
+                            <li>Conversation starters</li>
+                            <li>Signs that your child might be groomed</li>
+                            <li>How to monitor and guide teens online</li>
+                        </ul>
+                        <div class="text-xs text-gray-400">Reference: CyberSAFE Malaysia (MCMC), NASCA</div>
+                        <a href="https://cybersafe.my/" target="_blank" class="text-blue-400 underline mr-4">CyberSAFE Portal</a>
+                        <a href="https://www.mycert.org.my/" target="_blank" class="text-blue-400 underline">MyCERT</a>
+                    </div>
+
+                    <!-- 3. Emergency Contact List -->
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h4 class="text-xl font-bold mb-2 flex items-center"><span class="mr-2">☎️</span> Emergency Contact List (Malaysia)</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm text-left text-gray-300">
+                                <thead>
+                                    <tr class="bg-gray-700">
+                                        <th class="px-4 py-2">Service</th>
+                                        <th class="px-4 py-2">Contact</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="px-4 py-2">Cyber999 (MyCERT - report cybercrime)</td>
+                                        <td class="px-4 py-2">
+                                            <a href="mailto:cyber999@cybersecurity.my" class="text-blue-400 underline">cyber999@cybersecurity.my</a> or
+                                            <a href="https://aduan.cybersecurity.my/" target="_blank" class="text-blue-400 underline">Submit online</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Talian Kasih (Child & Women Abuse Hotline)</td>
+                                        <td class="px-4 py-2">📞 15999 or WhatsApp <a href="https://wa.me/60192615999" target="_blank" class="text-blue-400 underline">019-2615999</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Polis Diraja Malaysia (PDRM - CCID)</td>
+                                        <td class="px-4 py-2"><a href="http://ccid.rmp.gov.my/" target="_blank" class="text-blue-400 underline">ccid.rmp.gov.my</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">JKM Helpline (Child protection)</td>
+                                        <td class="px-4 py-2">📞 Talian Kasih 15999</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">MCMC Complaint Portal</td>
+                                        <td class="px-4 py-2"><a href="https://aduan.skmm.gov.my/" target="_blank" class="text-blue-400 underline">aduan.skmm.gov.my</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bonus: Official Resources -->
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h4 class="text-lg font-bold mb-2">📌 Official Malaysian Cybersecurity Resources</h4>
+                        <ul class="list-disc ml-6 text-gray-300">
+                            <li><a href="https://cybersafe.my/" target="_blank" class="text-blue-400 underline">CyberSAFE Malaysia</a> – Posters, campaigns, school programmes</li>
+                            <li><a href="https://www.mycert.org.my/" target="_blank" class="text-blue-400 underline">MyCERT</a> – Cyber incident response & reporting</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Chat Simulation Modal -->
@@ -173,76 +260,175 @@
     </div>
 
     <!-- Add this after your main content, before the closing </div> of #mainApp -->
-        <div id="learningModule" class="hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-50 overflow-y-auto p-8">
-            <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg p-6 shadow-lg">
-                <button id="closeLearningBtn" class="float-right text-red-400 text-2xl mb-4">&times;</button>
-                <h2 class="text-3xl font-bold mb-4 text-green-400">Online Safety Learning Modules</h2>
-                <div class="space-y-6 text-gray-100">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">📖 Module 1: Introduction to Online Safety</h3>
-                        <ul class="list-disc ml-6">
-                            <li>What is online safety?</li>
-                            <li>Why teenagers are often targeted</li>
-                            <li>Real-life case examples (without disturbing imagery)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">🚩 Module 2: Understanding Online Predators</h3>
-                        <ul class="list-disc ml-6">
-                            <li>Who are online predators?</li>
-                            <li>Platforms they commonly use (social media, games, DMs)</li>
-                            <li>Common tricks they use (fake profiles, flattery, empathy, isolation)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">🧠 Module 3: What is Grooming?</h3>
-                        <ul class="list-disc ml-6">
-                            <li>Definition of grooming</li>
-                            <li>5 stages of grooming:
-                                <ul class="list-decimal ml-6">
-                                    <li>Targeting the victim</li>
-                                    <li>Gaining trust</li>
-                                    <li>Fulfilling emotional/psychological needs</li>
-                                    <li>Desensitizing to sexual content</li>
-                                    <li>Maintaining control through fear, guilt or manipulation</li>
-                                </ul>
-                            </li>
-                            <li>Realistic scenarios (age-appropriate)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">🧰 Module 4: Warning Signs and Red Flags</h3>
-                        <ul class="list-disc ml-6">
-                            <li>When someone asks you to keep secrets</li>
-                            <li>When a stranger showers you with compliments</li>
-                            <li>When someone asks for inappropriate photos or to meet in person</li>
-                            <li>Feeling uncomfortable but unsure why</li>
-                        </ul>
-                        <div class="bg-yellow-900 text-yellow-300 rounded p-2 mt-2">📝 Tip: “If it feels weird, it probably is.”</div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">🛡️ Module 5: How to Stay Safe Online</h3>
-                        <ul class="list-disc ml-6">
-                            <li>Don't share personal info (full name, school, address, photos)</li>
-                            <li>Set privacy settings on social media</li>
-                            <li>Think before clicking or responding</li>
-                            <li>Don’t accept friend requests from strangers</li>
-                            <li>Never agree to meet in person</li>
-                        </ul>
-                        <div class="bg-blue-900 text-blue-300 rounded p-2 mt-2">Mini checklist: “Online Safety Self-Test”</div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">💬 Module 6: What To Do If Something Feels Wrong</h3>
-                        <ul class="list-disc ml-6">
-                            <li>Talk to a trusted adult (parent, teacher, counselor)</li>
-                            <li>How to report abuse on different platforms (Instagram, Discord, TikTok, etc.)</li>
-                            <li>How to save evidence (screenshots, chat logs)</li>
-                            <li>National/local cybercrime helplines</li>
-                        </ul>
-                    </div>
+    <div id="learningModule" class="hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-50 overflow-y-auto p-8">
+        <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg p-6 shadow-lg">
+            <button id="closeLearningBtn" class="float-right text-red-400 text-2xl mb-4">&times;</button>
+            <h2 class="text-3xl font-bold mb-4 text-green-400">Online Safety Learning Modules</h2>
+            <div class="space-y-6 text-gray-100">
+                <div>
+                    <h3 class="text-xl font-bold mb-2">📖 Module 1: Introduction to Online Safety</h3>
+                    <ul class="list-disc ml-6">
+                        <li>What is online safety?</li>
+                        <li>Why teenagers are often targeted</li>
+                        <li>Real-life case examples (without disturbing imagery)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">🚩 Module 2: Understanding Online Predators</h3>
+                    <ul class="list-disc ml-6">
+                        <li>Who are online predators?</li>
+                        <li>Platforms they commonly use (social media, games, DMs)</li>
+                        <li>Common tricks they use (fake profiles, flattery, empathy, isolation)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">🧠 Module 3: What is Grooming?</h3>
+                    <ul class="list-disc ml-6">
+                        <li>Definition of grooming</li>
+                        <li>5 stages of grooming:
+                            <ul class="list-decimal ml-6">
+                                <li>Targeting the victim</li>
+                                <li>Gaining trust</li>
+                                <li>Fulfilling emotional/psychological needs</li>
+                                <li>Desensitizing to sexual content</li>
+                                <li>Maintaining control through fear, guilt or manipulation</li>
+                            </ul>
+                        </li>
+                        <li>Realistic scenarios (age-appropriate)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">🧰 Module 4: Warning Signs and Red Flags</h3>
+                    <ul class="list-disc ml-6">
+                        <li>When someone asks you to keep secrets</li>
+                        <li>When a stranger showers you with compliments</li>
+                        <li>When someone asks for inappropriate photos or to meet in person</li>
+                        <li>Feeling uncomfortable but unsure why</li>
+                    </ul>
+                    <div class="bg-yellow-900 text-yellow-300 rounded p-2 mt-2">📝 Tip: “If it feels weird, it probably is.”</div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">🛡️ Module 5: How to Stay Safe Online</h3>
+                    <ul class="list-disc ml-6">
+                        <li>Don't share personal info (full name, school, address, photos)</li>
+                        <li>Set privacy settings on social media</li>
+                        <li>Think before clicking or responding</li>
+                        <li>Don’t accept friend requests from strangers</li>
+                        <li>Never agree to meet in person</li>
+                    </ul>
+                    <div class="bg-blue-900 text-blue-300 rounded p-2 mt-2">Mini checklist: “Online Safety Self-Test”</div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">💬 Module 6: What To Do If Something Feels Wrong</h3>
+                    <ul class="list-disc ml-6">
+                        <li>Talk to a trusted adult (parent, teacher, counselor)</li>
+                        <li>How to report abuse on different platforms (Instagram, Discord, TikTok, etc.)</li>
+                        <li>How to save evidence (screenshots, chat logs)</li>
+                        <li>National/local cybercrime helplines</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-50 flex items-center justify-center">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg w-full shadow-lg relative">
+            <button id="closeProfileBtn" class="absolute top-4 right-4 text-red-400 text-2xl">&times;</button>
+            <div class="flex flex-col items-center">
+                <!-- Avatar and Username -->
+                <!-- Inside your #profileModal, replace the avatar section with: -->
+                <img id="profileAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberTeen" alt="Avatar" class="w-24 h-24 rounded-full mb-4 border-4 border-green-400">
+
+                <div class="mb-4 flex flex-col items-center">
+                    <button id="editAvatarBtn" class="px-3 py-1 bg-gray-700 rounded text-white hover:bg-gray-600 mb-2">Edit</button>
+                    <button id="changeAvatarBtn" class="px-3 py-1 bg-green-600 rounded text-white hover:bg-green-500 hidden">Change Avatar</button>
+                </div>
+                <h2 id="profileUsername" class="text-2xl font-bold mb-2">CyberTeen42</h2>
+                <div id="editNameSection" class="mb-4 flex flex-col items-center hidden">
+                    <input id="nameInput" type="text" class="px-2 py-1 rounded bg-gray-700 text-white mb-2" maxlength="20" placeholder="Enter nickname">
+                    <button id="saveNameBtn" class="px-3 py-1 bg-blue-600 rounded text-white hover:bg-blue-500">Save</button>
+                </div>
+                <div class="mb-4 w-full">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-green-400 font-bold">Level <span id="profileLevel">3</span></span>
+                        <span class="text-gray-300 text-sm">XP: <span id="profileXP">120</span>/200</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-3">
+                        <div id="profileXPBar" class="bg-green-400 h-3 rounded-full" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <!-- Badges -->
+                <div class="mb-4 w-full">
+                    <h3 class="text-lg font-bold mb-2 text-purple-400">Badges & Achievements</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-700 text-green-200 px-3 py-1 rounded-full text-sm">🛡️ Online Safety Pro</span>
+                        <span class="bg-yellow-700 text-yellow-200 px-3 py-1 rounded-full text-sm">🚩 Red Flag Detector</span>
+                        <span class="bg-blue-700 text-blue-200 px-3 py-1 rounded-full text-sm">🧠 Grooming Aware</span>
+                    </div>
+                </div>
+                <!-- Completed Modules -->
+                <div class="mb-4 w-full">
+                    <h3 class="text-lg font-bold mb-2 text-blue-400">Completed Modules</h3>
+                    <ul class="list-disc ml-6 text-gray-200 text-sm" id="profileModules">
+                        <li>Introduction to Online Safety</li>
+                        <li>Understanding Online Predators</li>
+                        <li>What is Grooming?</li>
+                    </ul>
+                </div>
+                <!-- Quiz Scores -->
+                <div class="mb-4 w-full">
+                    <h3 class="text-lg font-bold mb-2 text-pink-400">Quiz Scores</h3>
+                    <ul class="list-disc ml-6 text-gray-200 text-sm" id="profileQuizScores">
+                        <li>Quick Quiz: 8/10</li>
+                        <li>Red Flags Quiz: 7/10</li>
+                    </ul>
+                </div>
+                <!-- Simulation Results -->
+                <div class="mb-2 w-full">
+                    <h3 class="text-lg font-bold mb-2 text-yellow-400">Simulation Results</h3>
+                    <ul class="list-disc ml-6 text-gray-200 text-sm" id="profileSimResults">
+                        <li>Handled 2/3 grooming scenarios safely</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboardModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-50 flex items-center justify-center">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-lg w-full shadow-lg relative">
+            <button id="closeLeaderboardBtn" class="absolute top-4 right-4 text-red-400 text-2xl">&times;</button>
+            <h2 class="text-2xl font-bold mb-4 text-yellow-400 text-center">🏆 Leaderboard</h2>
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-green-400 mb-2">Top Scorers (Quizzes)</h3>
+                <ol class="list-decimal ml-6 text-gray-200" id="topScorersList">
+                    <li><span class="font-bold">CyberNinja</span> – 9/10</li>
+                    <li><span class="font-bold">PixelGuard</span> – 8/10</li>
+                    <li><span class="font-bold">SafeSurfer</span> – 8/10</li>
+                </ol>
+            </div>
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-blue-400 mb-2">Most Badges Earned</h3>
+                <ol class="list-decimal ml-6 text-gray-200" id="mostBadgesList">
+                    <li><span class="font-bold">RedFlagHero</span> – 5 badges</li>
+                    <li><span class="font-bold">QuizWhiz</span> – 4 badges</li>
+                    <li><span class="font-bold">GuardianKid</span> – 4 badges</li>
+                </ol>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-purple-400 mb-2">Most Active Users</h3>
+                <ol class="list-decimal ml-6 text-gray-200" id="mostActiveList">
+                    <li><span class="font-bold">XPWarrior</span> – 320 XP</li>
+                    <li><span class="font-bold">CyberTeen42</span> – 300 XP</li>
+                    <li><span class="font-bold">BadgeHunter</span> – 280 XP</li>
+                </ol>
+            </div>
+            <div class="mt-6 text-xs text-gray-400 text-center">
+                All nicknames are user-chosen for privacy.
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
