@@ -1,4 +1,3 @@
-
 // Loading screen transition
 setTimeout(() => {
     document.getElementById('loadingScreen').style.opacity = '0';
@@ -452,4 +451,162 @@ function resetQuiz() {
     quizResult.style.display = 'none';
     quizProgressBar.style.width = '0%';
 }
+
+// Learning Module Enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    // Module Navigation with Progress Bar
+    const moduleSteps = document.querySelectorAll('.module-step');
+    const moduleCount = moduleSteps.length;
+    const progressBar = document.getElementById('moduleProgressBar');
+    const currentModuleNum = document.getElementById('currentModuleNum');
+    
+    // Back Button Navigation
+    document.getElementById('backToModule1')?.addEventListener('click', function() {
+        updateModule(1);
+    });
+    document.getElementById('backToModule2')?.addEventListener('click', function() {
+        updateModule(2);
+    });
+    document.getElementById('backToModule3')?.addEventListener('click', function() {
+        updateModule(3);
+    });
+    document.getElementById('backToModule4')?.addEventListener('click', function() {
+        updateModule(4);
+    });
+    document.getElementById('backToModule5')?.addEventListener('click', function() {
+        updateModule(5);
+    });
+    
+    // Update progress bar and current module number
+    function updateModule(moduleNumber) {
+        // Hide all modules
+        moduleSteps.forEach(step => step.classList.add('hidden'));
+        
+        // Show the current module
+        document.getElementById(`module${moduleNumber}`).classList.remove('hidden');
+        
+        // Update progress bar
+        const progress = (moduleNumber / moduleCount) * 100;
+        progressBar.style.width = `${progress}%`;
+        
+        // Update module number
+        currentModuleNum.textContent = moduleNumber;
+    }
+    
+    // Interactive Elements - Message Cards
+    const messageCards = document.querySelectorAll('.message-card');
+    messageCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const feedback = this.querySelector('.feedback');
+            if (feedback) {
+                feedback.classList.toggle('hidden');
+                feedback.classList.add('feedback-animation');
+            }
+        });
+    });
+    
+    // Knowledge Checks
+    const checkAnswerBtns = document.querySelectorAll('.check-answer');
+    checkAnswerBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const parent = this.closest('.knowledge-check');
+            const correctAnswer = parent.querySelector('.correct-answer');
+            const feedbackElement = parent.querySelector('.answer-feedback');
+            
+            if (correctAnswer && correctAnswer.checked && feedbackElement) {
+                feedbackElement.classList.remove('hidden');
+                feedbackElement.classList.add('feedback-animation');
+                this.textContent = "Correct!";
+                this.style.backgroundColor = "#48bb78";
+            } else {
+                // Show incorrect feedback
+                if (feedbackElement) {
+                    feedbackElement.classList.remove('hidden');
+                    feedbackElement.textContent = "Try again! Review the material and select the best answer.";
+                    feedbackElement.classList.add('feedback-animation');
+                    feedbackElement.style.color = "#fc8181";
+                }
+                this.textContent = "Try Again";
+                this.style.backgroundColor = "#f56565";
+            }
+        });
+    });
+    
+    // Flag Checking
+    const checkFlagsBtn = document.querySelector('.check-flags');
+    if (checkFlagsBtn) {
+        checkFlagsBtn.addEventListener('click', function() {
+            const flag1 = document.getElementById('flag1');
+            const flag2 = document.getElementById('flag2');
+            const flag3 = document.getElementById('flag3');
+            const feedback = document.querySelector('.flags-feedback');
+            
+            if (flag1 && flag1.checked && flag2 && flag2.checked && flag3 && flag3.checked) {
+                feedback.classList.remove('hidden');
+                feedback.classList.add('feedback-animation');
+                this.textContent = "Great job!";
+                this.style.backgroundColor = "#48bb78";
+            } else {
+                feedback.classList.remove('hidden');
+                feedback.textContent = "Not quite! Try to identify all red flags in the message.";
+                feedback.style.color = "#fc8181";
+                feedback.classList.add('feedback-animation');
+                this.textContent = "Try Again";
+                this.style.backgroundColor = "#f56565";
+            }
+        });
+    }
+    
+    // Safety Self-Test
+    const checkSafetyBtn = document.querySelector('.check-safety');
+    if (checkSafetyBtn) {
+        checkSafetyBtn.addEventListener('click', function() {
+            const test1 = document.getElementById('test1');
+            const test2 = document.getElementById('test2');
+            const test3 = document.getElementById('test3');
+            const test4 = document.getElementById('test4');
+            
+            const checkedCount = [test1, test2, test3, test4].filter(test => test && test.checked).length;
+            const resultElement = document.querySelector('.safety-result');
+            
+            if (resultElement) {
+                resultElement.classList.remove('hidden');
+                resultElement.classList.add('feedback-animation');
+                
+                if (checkedCount === 4) {
+                    resultElement.textContent = "Perfect! You're practicing excellent online safety habits.";
+                    resultElement.style.backgroundColor = "#2f855a";
+                } else if (checkedCount >= 2) {
+                    resultElement.textContent = `Good start! You checked ${checkedCount}/4 safety practices. Try to implement the others too.`;
+                    resultElement.style.backgroundColor = "#dd6b20";
+                } else {
+                    resultElement.textContent = "You have some important safety steps to take. Review the safety guidelines.";
+                    resultElement.style.backgroundColor = "#c53030";
+                }
+            }
+        });
+    }
+    
+    // Technique buttons
+    const techButtons = document.querySelectorAll('.technique-btn');
+    techButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+    
+    // Final Challenge
+    document.getElementById('submitFinalChallenge')?.addEventListener('click', function() {
+        const option2 = document.getElementById('option2');
+        const challengeResult = document.getElementById('challengeResult');
+        
+        if (option2 && option2.checked && challengeResult) {
+            challengeResult.classList.remove('hidden');
+            challengeResult.classList.add('feedback-animation');
+            this.style.display = 'none';
+        } else {
+            alert("That's not the safest choice. Try again!");
+        }
+    });
+});
 

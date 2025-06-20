@@ -113,7 +113,7 @@
                         <p class="text-gray-300">of sexual solicitations occur on social media</p>
                     </div>
                     <div class="p-4">
-                        <div class="text-blue-500 text-4xl font-bold mb-2">90%</div>
+                        <div class="text-blue-500 text-4xl font-bold mb-2">60-75%</div>
                         <p class="text-gray-300">of victims don't report online exploitation</p>
                     </div>
                     <div class="p-4">
@@ -264,82 +264,522 @@
 
     <!-- Learning Module Modal -->
     <div id="learningModule" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-900 rounded-lg shadow-lg p-8 w-full max-w-lg relative">
+        <div class="bg-gray-900 rounded-lg shadow-lg p-8 w-full max-w-3xl relative">
             <button id="closeLearningBtn" class="absolute top-4 right-4 text-gray-400 hover:text-red-400 text-2xl font-bold">&times;</button>
             
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6 bg-gray-800 rounded-full h-3">
+                <div id="moduleProgressBar" class="h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full" style="width: 16.6%"></div>
+                <p class="text-xs text-center mt-1 text-gray-400">Module <span id="currentModuleNum">1</span> of 6</p>
+            </div>
+
             <!-- Module 1 -->
             <div id="module1" class="module-step">
-                <h3 class="text-xl font-bold mb-2">📖 Module 1: Introduction to Online Safety</h3>
-                <ul class="list-disc ml-6">
-                    <li>What is online safety?</li>
-                    <li>Why teenagers are often targeted</li>
-                    <li>Real-life case examples (without disturbing imagery)</li>
-                </ul>
-                <button id="nextToModule2" class="mt-6 px-4 py-2 bg-green-600 text-white rounded">Next</button>
+                <h3 class="text-2xl font-bold mb-4 text-green-400">📖 Module 1: Introduction to Online Safety</h3>
+                <p class="mb-4 text-gray-300">Welcome to CyberShield's learning module! Before we dive in, let's understand why online safety matters to teens like you.</p>
+                
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-2 text-blue-300">Why Is This Important?</h4>
+                    <ul class="list-disc ml-6 space-y-2 text-gray-200">
+                        <li>1 in 5 teenagers report unwanted online contact from adults they don't know</li>
+                        <li>Over 60% of teens have received messages from strangers online</li>
+                        <li>Most teens don't realize when they're being manipulated</li>
+                    </ul>
+                </div>
+                
+                <!-- Interactive Element -->
+                <div class="interactive-element bg-gray-800 p-4 rounded-lg mt-4 mb-6">
+                    <h4 class="font-bold text-blue-400 mb-2">💡 Spot the Difference</h4>
+                    <p class="mb-2">Can you identify which message might be from an online predator?</p>
+                    <div class="grid grid-cols-1 gap-3 mt-3">
+                        <div class="message-card bg-gray-700 p-3 rounded border border-gray-600 cursor-pointer hover:border-blue-500">
+                            <p class="font-bold text-sm">Message 1:</p>
+                            <p class="italic">"Hey, I saw your dance video. You're really talented! What school do you go to? Maybe we have friends in common."</p>
+                            <div class="hidden feedback text-red-400 mt-2">❌ This shows red flags: asking personal information (school) from someone they just saw online.</div>
+                        </div>
+                        <div class="message-card bg-gray-700 p-3 rounded border border-gray-600 cursor-pointer hover:border-blue-500">
+                            <p class="font-bold text-sm">Message 2:</p>
+                            <p class="italic">"Your gaming skills are awesome! I play that game too. Have you tried the new DLC that came out last week?"</p>
+                            <div class="hidden feedback text-green-400 mt-2">✓ This focuses on a shared interest without asking for personal information.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Knowledge Check -->
+                <div class="knowledge-check bg-indigo-900 bg-opacity-50 p-4 rounded-lg my-4">
+                    <h4 class="font-bold text-indigo-300 mb-2">✓ Quick Check</h4>
+                    <p>What is the main goal of online safety education?</p>
+                    <form class="mt-2 space-y-2">
+                        <div class="flex items-center">
+                            <input type="radio" name="quiz1" id="q1-1" class="mr-2">
+                            <label for="q1-1">To prevent teens from using the internet</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="quiz1" id="q1-2" class="mr-2 correct-answer">
+                            <label for="q1-2">To help teens recognize and avoid dangerous situations online</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="quiz1" id="q1-3" class="mr-2">
+                            <label for="q1-3">To monitor all teen online activity</label>
+                        </div>
+                    </form>
+                    <button class="check-answer mt-3 px-3 py-1 bg-indigo-600 hover:bg-indigo-700 rounded text-white">Check Answer</button>
+                    <p class="answer-feedback hidden mt-2 text-green-400">Correct! The goal is to empower you with knowledge to stay safe while enjoying the internet.</p>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <div></div>
+                    <button id="nextToModule2" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 flex items-center">Next Module <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
             </div>
+            
             <!-- Module 2 -->
             <div id="module2" class="module-step hidden">
-                <h3 class="text-xl font-bold mb-2">🚩 Module 2: Understanding Online Predators</h3>
-                <ul class="list-disc ml-6">
-                    <li>Who are online predators?</li>
-                    <li>Platforms they commonly use (social media, games, DMs)</li>
-                    <li>Common tricks they use (fake profiles, flattery, empathy, isolation)</li>
-                </ul>
-                <button id="nextToModule3" class="mt-6 px-4 py-2 bg-green-600 text-white rounded">Next</button>
+                <h3 class="text-2xl font-bold mb-4 text-yellow-400">🚩 Module 2: Understanding Online Predators</h3>
+                <p class="mb-4 text-gray-300">Let's understand how predators operate online and what techniques they use to target teens.</p>
+                
+                <!-- Case Study -->
+                <div class="case-study bg-gray-800 p-4 rounded-lg my-4">
+                    <h4 class="font-bold text-yellow-400 mb-2">📱 Real Story: Emma's Experience</h4>
+                    <p class="italic mb-3">"I was 14 when someone claiming to be a 16-year-old girl from another school friended me. We talked for weeks about music and movies. Then she started asking for personal photos. When I refused, she got angry. My mom helped me report the account, which turned out to be a 42-year-old man."</p>
+                    <div class="mt-2">
+                        <p class="font-medium">What warning signs did you spot?</p>
+                        <ul class="list-disc ml-6 mt-1">
+                            <li>Requesting personal photos</li>
+                            <li>Getting upset when boundaries are set</li>
+                            <li>Creating a false identity to seem relatable</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-2 text-orange-300">Common Tactics Used by Online Predators:</h4>
+                    <ul class="list-disc ml-6 space-y-2 text-gray-200">
+                        <li><span class="font-bold text-orange-200">Fake Profiles</span> - Creating personas that appeal to teens (similar age, interests)</li>
+                        <li><span class="font-bold text-orange-200">Flattery</span> - Excessive compliments about appearance or talents</li>
+                        <li><span class="font-bold text-orange-200">Isolation</span> - Trying to move conversations to private platforms</li>
+                        <li><span class="font-bold text-orange-200">Testing Boundaries</span> - Gradually introducing inappropriate topics</li>
+                    </ul>
+                </div>
+                
+                <!-- Interactive Element -->
+                <div class="interactive-element bg-gray-800 p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-blue-400 mb-2">🎮 Scenario Challenge</h4>
+                    <p class="mb-3">Someone you've been chatting with in an online game for two weeks says:</p>
+                    <div class="bg-gray-700 p-3 rounded mb-3 italic">
+                        "You're so much cooler than people at my school. We should chat somewhere more private where we can really talk. What's your Instagram or Snapchat? Don't tell your parents - they wouldn't understand our friendship."
+                    </div>
+                    <p class="font-medium mb-2">What red flags do you see here?</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="flag1" class="mr-2">
+                            <label for="flag1">Asking to move to a private platform</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="flag2" class="mr-2">
+                            <label for="flag2">Suggesting secrecy from parents</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="flag3" class="mr-2">
+                            <label for="flag3">Using flattery to build trust</label>
+                        </div>
+                    </div>
+                    <button class="check-flags mt-3 px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white">Check My Answers</button>
+                    <p class="flags-feedback hidden mt-2 text-green-400">Great job! You identified the warning signs. All three are classic red flags.</p>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button id="backToModule1" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                    <button id="nextToModule3" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 flex items-center">Next Module <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
             </div>
+            
             <!-- Module 3 -->
             <div id="module3" class="module-step hidden">
-                <h3 class="text-xl font-bold mb-2">🧠 Module 3: What is Grooming?</h3>
-                <ul class="list-disc ml-6">
-                    <li>Definition of grooming</li>
-                    <li>5 stages of grooming:
-                        <ul class="list-decimal ml-6">
-                            <li>Targeting the victim</li>
-                            <li>Gaining trust</li>
-                            <li>Fulfilling emotional/psychological needs</li>
-                            <li>Desensitizing to sexual content</li>
-                            <li>Maintaining control through fear, guilt or manipulation</li>
-                        </ul>
-                    </li>
-                    <li>Realistic scenarios (age-appropriate)</li>
-                </ul>
-                <button id="nextToModule4" class="mt-6 px-4 py-2 bg-green-600 text-white rounded">Next</button>
+                <h3 class="text-2xl font-bold mb-4 text-purple-400">🧠 Module 3: What is Grooming?</h3>
+                <p class="mb-4 text-gray-300">Grooming is a process predators use to gain trust and manipulate young people. Let's learn to recognize it.</p>
+                
+                <!-- Visual Learning Aid -->
+                <div class="infographic bg-gray-800 p-4 rounded-lg my-4">
+                    <h4 class="font-bold text-purple-300 mb-3">The 5 Stages of Grooming</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="stage p-3 bg-gray-700 rounded-lg border-l-4 border-red-500">
+                            <h5 class="font-bold">1. Targeting the Victim</h5>
+                            <p class="text-sm">Predators look for vulnerable teens who post about feeling lonely, fighting with parents, or seeking validation.</p>
+                        </div>
+                        <div class="stage p-3 bg-gray-700 rounded-lg border-l-4 border-orange-500">
+                            <h5 class="font-bold">2. Gaining Trust</h5>
+                            <p class="text-sm">They build rapport through shared interests, offering understanding, and making the teen feel special.</p>
+                        </div>
+                        <div class="stage p-3 bg-gray-700 rounded-lg border-l-4 border-yellow-500">
+                            <h5 class="font-bold">3. Filling Needs</h5>
+                            <p class="text-sm">They provide emotional support, gifts, attention, or affirmation that the teen may crave.</p>
+                        </div>
+                        <div class="stage p-3 bg-gray-700 rounded-lg border-l-4 border-purple-500">
+                            <h5 class="font-bold">4. Isolating/Desensitizing</h5>
+                            <p class="text-sm">They create a "special relationship" while gradually introducing inappropriate content or requests.</p>
+                        </div>
+                        <div class="stage p-3 bg-gray-700 rounded-lg border-l-4 border-blue-500 col-span-full">
+                            <h5 class="font-bold">5. Maintaining Control</h5>
+                            <p class="text-sm">They use guilt, threats, or manipulation to keep the teen engaged and secretive about the relationship.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario Analysis -->
+                <div class="scenario bg-gray-800 p-4 rounded-lg my-4">
+                    <h4 class="font-bold text-purple-300 mb-2">Analyze This Conversation</h4>
+                    <div class="chat-simulation bg-gray-700 p-3 rounded-lg mb-3">
+                        <div class="message mb-2">
+                            <span class="text-xs text-gray-400">NewFriend52:</span>
+                            <p>Hey, I saw your comment about your parents not understanding you. My parents are the same way.</p>
+                        </div>
+                        <div class="message mb-2">
+                            <span class="text-xs text-gray-400">You:</span>
+                            <p>Yeah it's frustrating. No one gets it.</p>
+                        </div>
+                        <div class="message mb-2">
+                            <span class="text-xs text-gray-400">NewFriend52:</span>
+                            <p>I totally understand. You seem really mature for your age. Not like others.</p>
+                        </div>
+                        <div class="message mb-2">
+                            <span class="text-xs text-gray-400">NewFriend52:</span>
+                            <p>We should chat privately. I can help you deal with your parents. I've got lots of experience.</p>
+                        </div>
+                    </div>
+                    <p class="mb-2">What grooming techniques do you see in this conversation?</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
+                        <button class="technique-btn px-2 py-1 bg-gray-600 rounded text-sm hover:bg-gray-500 transition">Building false connection</button>
+                        <button class="technique-btn px-2 py-1 bg-gray-600 rounded text-sm hover:bg-gray-500 transition">Isolating the target</button>
+                        <button class="technique-btn px-2 py-1 bg-gray-600 rounded text-sm hover:bg-gray-500 transition">Flattery and special treatment</button>
+                        <button class="technique-btn px-2 py-1 bg-gray-600 rounded text-sm hover:bg-gray-500 transition">Positioning as a mentor/helper</button>
+                    </div>
+                </div>
+                
+                <!-- Knowledge Check -->
+                <div class="knowledge-check bg-indigo-900 bg-opacity-50 p-4 rounded-lg my-4">
+                    <h4 class="font-bold text-indigo-300 mb-2">✓ Quick Check</h4>
+                    <p>What is the best response if you notice signs of grooming?</p>
+                    <form class="mt-2 space-y-2">
+                        <div class="flex items-center">
+                            <input type="radio" name="quiz3" id="q3-1" class="mr-2">
+                            <label for="q3-1">Continue the conversation to gather evidence</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="quiz3" id="q3-2" class="mr-2">
+                            <label for="q3-2">Confront the person directly</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="quiz3" id="q3-3" class="mr-2 correct-answer">
+                            <label for="q3-3">Stop responding and tell a trusted adult</label>
+                        </div>
+                    </form>
+                    <button class="check-answer mt-3 px-3 py-1 bg-indigo-600 hover:bg-indigo-700 rounded text-white">Check Answer</button>
+                    <p class="answer-feedback hidden mt-2 text-green-400">Correct! Your safety comes first - don't engage further.</p>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button id="backToModule2" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                    <button id="nextToModule4" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 flex items-center">Next Module <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
             </div>
+            
             <!-- Module 4 -->
             <div id="module4" class="module-step hidden">
-                <h3 class="text-xl font-bold mb-2">🧰 Module 4: Warning Signs and Red Flags</h3>
-                <ul class="list-disc ml-6">
-                    <li>When someone asks you to keep secrets</li>
-                    <li>When a stranger showers you with compliments</li>
-                    <li>When someone asks for inappropriate photos or to meet in person</li>
-                    <li>Feeling uncomfortable but unsure why</li>
-                </ul>
-                <div class="bg-yellow-900 text-yellow-300 rounded p-2 mt-2">📝 Tip: “If it feels weird, it probably is.”</div>
-                <button id="nextToModule5" class="mt-6 px-4 py-2 bg-green-600 text-white rounded">Next</button>
+                <h3 class="text-2xl font-bold mb-4 text-red-400">🚨 Module 4: Warning Signs and Red Flags</h3>
+                <p class="mb-4 text-gray-300">Learning to spot warning signs is your first line of defense. Let's explore what to watch for.</p>
+                
+                <!-- Real World Examples -->
+                <div class="red-flags-container mb-6">
+                    <h4 class="text-lg font-semibold mb-3 text-red-300">Major Red Flags to Watch For:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="red-flag bg-gray-800 p-3 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xl text-red-500 mr-2">⚠️</span>
+                                <h5 class="font-bold">Secrecy Requests</h5>
+                            </div>
+                            <p class="text-sm">"This can be our little secret."</p>
+                            <p class="text-sm">"Don't tell your parents about our conversations."</p>
+                        </div>
+                        <div class="red-flag bg-gray-800 p-3 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xl text-red-500 mr-2">⚠️</span>
+                                <h5 class="font-bold">Excessive Compliments</h5>
+                            </div>
+                            <p class="text-sm">"You're so mature for your age."</p>
+                            <p class="text-sm">"You're the most beautiful/handsome person I've seen."</p>
+                        </div>
+                        <div class="red-flag bg-gray-800 p-3 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xl text-red-500 mr-2">⚠️</span>
+                                <h5 class="font-bold">Isolation Attempts</h5>
+                            </div>
+                            <p class="text-sm">"Let's talk somewhere more private."</p>
+                            <p class="text-sm">"Your friends wouldn't understand our connection."</p>
+                        </div>
+                        <div class="red-flag bg-gray-800 p-3 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xl text-red-500 mr-2">⚠️</span>
+                                <h5 class="font-bold">Personal Questions</h5>
+                            </div>
+                            <p class="text-sm">"Where exactly do you live?"</p>
+                            <p class="text-sm">"Are your parents home right now?"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Element -->
+                <div class="interactive-element bg-gray-800 p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-blue-400 mb-2">🔍 Red Flag Hunt</h4>
+                    <p class="mb-2">Drag the phrases below to either "Safe" or "Red Flag" category:</p>
+                    <div class="red-flag-game grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="p-3 border border-dashed border-green-500 min-h-24 rounded">
+                            <p class="text-center text-green-400 mb-2">SAFE CONVERSATIONS</p>
+                            <div class="safe-items space-y-2">
+                                <!-- Items will be dropped here -->
+                            </div>
+                        </div>
+                        <div class="p-3 border border-dashed border-red-500 min-h-24 rounded">
+                            <p class="text-center text-red-400 mb-2">RED FLAG PHRASES</p>
+                            <div class="redflag-items space-y-2">
+                                <!-- Items will be dropped here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="draggable-items grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+                        <div class="draggable p-2 bg-gray-700 rounded text-sm cursor-pointer" data-type="redflag">"Do you have private social media accounts I can follow?"</div>
+                        <div class="draggable p-2 bg-gray-700 rounded text-sm cursor-pointer" data-type="safe">"Have you played the new Minecraft update?"</div>
+                        <div class="draggable p-2 bg-gray-700 rounded text-sm cursor-pointer" data-type="redflag">"You're so much more mature than others your age."</div>
+                        <div class="draggable p-2 bg-gray-700 rounded text-sm cursor-pointer" data-type="safe">"What did you think of the game last night?"</div>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-900 text-yellow-300 rounded p-3 mt-4 mb-4">
+                    <h4 class="font-bold flex items-center"><i class="fas fa-lightbulb mr-2"></i> Trust Your Instincts</h4>
+                    <p class="mt-1">If something feels uncomfortable or "off" about an interaction, it probably is. Your instincts are a powerful safety tool - listen to them!</p>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button id="backToModule3" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                    <button id="nextToModule5" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 flex items-center">Next Module <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
             </div>
+            
             <!-- Module 5 -->
             <div id="module5" class="module-step hidden">
-                <h3 class="text-xl font-bold mb-2">🛡️ Module 5: How to Stay Safe Online</h3>
-                <ul class="list-disc ml-6">
-                    <li>Don't share personal info (full name, school, address, photos)</li>
-                    <li>Set privacy settings on social media</li>
-                    <li>Think before clicking or responding</li>
-                    <li>Don’t accept friend requests from strangers</li>
-                    <li>Never agree to meet in person</li>
-                </ul>
-                <div class="bg-blue-900 text-blue-300 rounded p-2 mt-2">Mini checklist: “Online Safety Self-Test”</div>
-                <button id="nextToModule6" class="mt-6 px-4 py-2 bg-green-600 text-white rounded">Next</button>
+                <h3 class="text-2xl font-bold mb-4 text-blue-400">🛡️ Module 5: How to Stay Safe Online</h3>
+                <p class="mb-4 text-gray-300">Now that you know the risks, let's learn practical steps to protect yourself online.</p>
+                
+                <!-- Privacy Settings Guide -->
+                <div class="infographic bg-gray-800 p-4 rounded-lg my-4">
+                    <h4 class="font-bold text-blue-400 mb-2">🔐 Privacy Settings Checklist</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                        <div class="settings-card p-3 bg-gray-700 rounded">
+                            <h5 class="font-bold text-blue-300">Instagram</h5>
+                            <ul class="list-none text-sm space-y-1 mt-1">
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Private account</li>
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Hide story from unknown users</li>
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Turn off location tagging</li>
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Limit message requests</li>
+                            </ul>
+                        </div>
+                        <div class="settings-card p-3 bg-gray-700 rounded">
+                            <h5 class="font-bold text-blue-300">TikTok</h5>
+                            <ul class="list-none text-sm space-y-1 mt-1">
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Private account</li>
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Disable "Suggest your account to others"</li>
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Filter comments</li>
+                                <li class="flex items-center"><span class="text-green-400 mr-1">✓</span> Turn off duets/stitches</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Safety Rules -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-2 text-blue-300">Golden Rules for Online Safety:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="rule bg-gray-800 p-3 rounded-lg flex">
+                            <div class="icon text-2xl mr-3">👤</div>
+                            <div>
+                                <h5 class="font-bold text-white">Keep Personal Info Private</h5>
+                                <p class="text-sm">Never share your full name, address, school, phone number, or daily schedule</p>
+                            </div>
+                        </div>
+                        <div class="rule bg-gray-800 p-3 rounded-lg flex">
+                            <div class="icon text-2xl mr-3">🔒</div>
+                            <div>
+                                <h5 class="font-bold text-white">Use Privacy Settings</h5>
+                                <p class="text-sm">Set all accounts to private and regularly check for updates</p>
+                            </div>
+                        </div>
+                        <div class="rule bg-gray-800 p-3 rounded-lg flex">
+                            <div class="icon text-2xl mr-3">🧩</div>
+                            <div>
+                                <h5 class="font-bold text-white">Be Selective With Friends</h5>
+                                <p class="text-sm">Only accept requests from people you know in real life</p>
+                            </div>
+                        </div>
+                        <div class="rule bg-gray-800 p-3 rounded-lg flex">
+                            <div class="icon text-2xl mr-3">🚫</div>
+                            <div>
+                                <h5 class="font-bold text-white">Never Meet In Person</h5>
+                                <p class="text-sm">Don't agree to meet someone you've only met online</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Self-Test -->
+                <div class="bg-blue-900 bg-opacity-50 p-4 rounded-lg my-5">
+                    <h4 class="font-bold text-blue-300 mb-2">📝 Online Safety Self-Test</h4>
+                    <p class="mb-3">Check these statements about your online habits:</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="test1" class="mr-2">
+                            <label for="test1">My social media accounts are set to private</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="test2" class="mr-2">
+                            <label for="test2">I don't share personal details like my school or address online</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="test3" class="mr-2">
+                            <label for="test3">I know how to block and report users who make me uncomfortable</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="test4" class="mr-2">
+                            <label for="test4">I have a trusted adult I can talk to about online concerns</label>
+                        </div>
+                    </div>
+                    <button class="check-safety mt-3 px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white">See My Results</button>
+                    <div class="safety-result hidden mt-3 p-2 rounded">
+                        <!-- Will be filled by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button id="backToModule4" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                    <button id="nextToModule6" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 flex items-center">Next Module <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
             </div>
+            
             <!-- Module 6 -->
             <div id="module6" class="module-step hidden">
-                <h3 class="text-xl font-bold mb-2">💬 Module 6: What To Do If Something Feels Wrong</h3>
-                <ul class="list-disc ml-6">
-                    <li>Talk to a trusted adult (parent, teacher, counselor)</li>
-                    <li>How to report abuse on different platforms (Instagram, Discord, TikTok, etc.)</li>
-                    <li>How to save evidence (screenshots, chat logs)</li>
-                    <li>National/local cybercrime helplines</li>
-                </ul>
-                <button id="closeLearningBtnFinish" class="mt-6 px-4 py-2 bg-blue-600 text-white rounded">Finish</button>
+                <h3 class="text-2xl font-bold mb-4 text-green-400">💬 Module 6: Getting Help When You Need It</h3>
+                <p class="mb-4 text-gray-300">If something happens online that makes you uncomfortable, here's what to do.</p>
+                
+                <!-- Action Steps -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold mb-3 text-green-300">If You Encounter an Online Predator:</h4>
+                    <div class="space-y-4">
+                        <div class="step bg-gray-800 p-3 rounded-lg flex">
+                            <div class="step-number font-bold text-xl bg-green-900 h-8 w-8 flex items-center justify-center rounded-full mr-3">1</div>
+                            <div>
+                                <h5 class="font-bold">Stop All Communication</h5>
+                                <p class="text-sm">Don't respond to any more messages. Block the person immediately.</p>
+                            </div>
+                        </div>
+                        <div class="step bg-gray-800 p-3 rounded-lg flex">
+                            <div class="step-number font-bold text-xl bg-green-900 h-8 w-8 flex items-center justify-center rounded-full mr-3">2</div>
+                            <div>
+                                <h5 class="font-bold">Save Evidence</h5>
+                                <p class="text-sm">Take screenshots of the conversations before blocking.</p>
+                            </div>
+                        </div>
+                        <div class="step bg-gray-800 p-3 rounded-lg flex">
+                            <div class="step-number font-bold text-xl bg-green-900 h-8 w-8 flex items-center justify-center rounded-full mr-3">3</div>
+                            <div>
+                                <h5 class="font-bold">Tell a Trusted Adult</h5>
+                                <p class="text-sm">This could be a parent, teacher, counselor, or older sibling.</p>
+                            </div>
+                        </div>
+                        <div class="step bg-gray-800 p-3 rounded-lg flex">
+                            <div class="step-number font-bold text-xl bg-green-900 h-8 w-8 flex items-center justify-center rounded-full mr-3">4</div>
+                            <div>
+                                <h5 class="font-bold">Report to the Platform</h5>
+                                <p class="text-sm">Use the reporting features on the app or website.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resources -->
+                <div class="resources bg-gray-800 p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-green-400 mb-3">🆘 Helpful Resources</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="resource p-3 bg-gray-700 rounded">
+                            <h5 class="font-bold">National Center for Missing & Exploited Children</h5>
+                            <p class="text-sm mt-1">CyberTipline: 1-800-843-5678</p>
+                            <p class="text-sm">Report online exploitation</p>
+                        </div>
+                        <div class="resource p-3 bg-gray-700 rounded">
+                            <h5 class="font-bold">Crisis Text Line</h5>
+                            <p class="text-sm mt-1">Text HOME to 741741</p>
+                            <p class="text-sm">24/7 support from trained counselors</p>
+                        </div>
+                        <div class="resource p-3 bg-gray-700 rounded">
+                            <h5 class="font-bold">National Suicide Prevention Lifeline</h5>
+                            <p class="text-sm mt-1">1-800-273-8255</p>
+                            <p class="text-sm">24/7 support for emotional distress</p>
+                        </div>
+                        <div class="resource p-3 bg-gray-700 rounded">
+                            <h5 class="font-bold">Internet Safety Resources</h5>
+                            <p class="text-sm mt-1">NetSmartz.org</p>
+                            <p class="text-sm">Age-appropriate resources for online safety</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Final Challenge -->
+                <div class="final-challenge bg-gray-900 p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-green-400 mb-3">🎓 Final Challenge</h4>
+                    <p class="mb-3">Let's see what you've learned! Read this scenario and choose the best response:</p>
+                    <div class="scenario p-3 bg-gray-800 rounded mb-3">
+                        <p class="italic">Someone you've been chatting with online for two weeks wants to meet in person. They suggest meeting at a park near your home and ask you not to tell your parents.</p>
+                    </div>
+                    <p class="font-medium mb-2">What should you do?</p>
+                    <form class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="radio" name="finalChallenge" id="option1" class="mr-2">
+                            <label for="option1">Agree to meet them, but bring a friend for safety</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="finalChallenge" id="option2" class="mr-2 correct-answer">
+                            <label for="option2">Tell a trusted adult about the invitation</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="finalChallenge" id="option3" class="mr-2">
+                            <label for="option3">Ask for more information about who they are first</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="finalChallenge" id="option4" class="mr-2">
+                            <label for="option4">Suggest a video call before meeting in person</label>
+                        </div>
+                    </form>
+                    <button id="submitFinalChallenge" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition duration-200">Submit Answer</button>
+                </div>
+                
+                <div id="challengeResult" class="hidden bg-green-900 p-4 rounded-lg my-4">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">🎉</span>
+                        <h4 class="text-green-300 font-bold">Congratulations!</h4>
+                    </div>
+                    <p class="text-green-100">You've completed the CyberShield training program! You now have the knowledge to stay safer online.</p>
+                    <p class="mt-2 text-green-200">Remember: Always tell a trusted adult about invitations to meet someone you've only met online.</p>
+                    
+                    <!-- Achievement Badge -->
+                    <div class="achievement bg-gradient-to-r from-purple-900 to-indigo-900 p-3 rounded-lg text-center my-4">
+                        <p class="text-lg font-bold text-yellow-300">🏆 Achievement Unlocked!</p>
+                        <p class="text-white">Online Safety Master</p>
+                        <p class="text-xs text-gray-300 mt-1">You've completed all cybersecurity training modules</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button id="backToModule5" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+                    <button id="closeLearningBtnFinish" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">Complete Training</button>
+                </div>
             </div>
         </div>
     </div>

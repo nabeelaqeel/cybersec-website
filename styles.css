@@ -1,4 +1,3 @@
-
 @keyframes terminalTyping {
     from { width: 0 }
     to { width: 100% }
@@ -311,4 +310,123 @@
 }
 .quiz-finish-btn:hover {
     background-color: #00cc66;
+}
+/* Learning Module Styles */
+.learning-modal {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#moduleProgressBar {
+    transition: width 0.5s ease-in-out;
+}
+
+.interactive-element {
+    border-left: 4px solid #3182ce;
+}
+
+.knowledge-check {
+    border-left: 4px solid #667eea;
+}
+
+.message-card, .profile-card {
+    transition: all 0.2s ease;
+}
+
+.message-card:hover, .profile-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.draggable {
+    cursor: grab;
+    transition: all 0.2s ease;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.achievement-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(124, 58, 237, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+    }
+}
+
+.technique-btn.active {
+    background-color: #4299e1;
+    color: white;
+}
+
+.stage {
+    transition: transform 0.3s ease;
+}
+
+.stage:hover {
+    transform: translateY(-5px);
+}
+
+/* Animation for feedback responses */
+.feedback-animation {
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Module transitions */
+.module-step {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.module-step.hidden {
+    display: none;
+}
+
+/* Interactive elements */
+.rule:hover,
+.red-flag:hover,
+.settings-card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+/* Progress indicator */
+.progress-container {
+    position: relative;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .learning-box {
+        width: 95%;
+        max-width: none;
+        margin: 0 10px;
+    }
 }
