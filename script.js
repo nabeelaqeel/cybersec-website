@@ -1,46 +1,154 @@
-// Loading screen transition
-setTimeout(() => {
-    document.getElementById('loadingScreen').style.opacity = '0';
-    setTimeout(() => {
-        document.getElementById('loadingScreen').style.display = 'none';
-        document.getElementById('mainApp').classList.remove('hidden');
-    }, 500);
-}, 7000);
-
-// Chat simulation functionality
+// DOM Elements
+const quizBtn = document.getElementById('quizBtn');
+const quizModal = document.getElementById('quizModal');
+const closeQuizBtn = document.getElementById('closeQuizBtn');
+const quizContent = document.getElementById('quizContent');
+const learningBtn = document.getElementById('learningBtn');
+const learningModal = document.getElementById('learningModal');
+const closeLearningBtn = document.getElementById('closeLearningBtn');
+const learningContent = document.getElementById('learningContent');
+const progressBar = document.getElementById('progressBar');
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+const progressText = document.getElementById('progressText');
 const chatSimBtn = document.getElementById('chatSimBtn');
 const chatModal = document.getElementById('chatModal');
 const closeChatBtn = document.getElementById('closeChatBtn');
+const scenarioSelection = document.getElementById('scenarioSelection');
+const chatInterface = document.getElementById('chatInterface');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.getElementById('chatInput');
 const sendChatBtn = document.getElementById('sendChatBtn');
+const resetChatBtn = document.getElementById('resetChatBtn');
+const helpChatBtn = document.getElementById('helpChatBtn');
+const closeHelpBtn = document.getElementById('closeHelpBtn');
+const helpContent = document.getElementById('helpContent');
+const reportChatBtn = document.getElementById('reportChatBtn');
+const responseOptions = document.getElementById('responseOptions');
+const responseOptionButtons = document.getElementById('responseOptionButtons');
+const typingIndicator = document.getElementById('typingIndicator');
+const warningPanel = document.getElementById('warningPanel');
+const warningText = document.getElementById('warningText');
+const warningIgnoreBtn = document.getElementById('warningIgnoreBtn');
+const warningHelpBtn = document.getElementById('warningHelpBtn');
+const safetyTips = document.getElementById('safetyTips');
+const tipContent = document.getElementById('tipContent');
+const safetyScore = document.getElementById('safetyScore');
+const stageIndicator = document.getElementById('stageIndicator');
+const emotionalResponse = document.getElementById('emotionalResponse');
+const avatarEmoji = document.getElementById('avatarEmoji');
+const emotionText = document.getElementById('emotionText');
+const strangerName = document.getElementById('strangerName');
+const responseFeedback = document.getElementById('responseFeedback');
+const feedbackSafe = document.getElementById('feedbackSafe');
+const feedbackUnsafe = document.getElementById('feedbackUnsafe');
+const feedbackSafeText = document.getElementById('feedbackSafeText');
+const feedbackUnsafeText = document.getElementById('feedbackUnsafeText');
+const warningDetails = document.getElementById('warningDetails');
+const warningExplanation = document.getElementById('warningExplanation');
+const scenarioSummary = document.getElementById('scenarioSummary');
+const finalScore = document.getElementById('finalScore');
+const redFlagsList = document.getElementById('redFlagsList');
+const scenarioLessons = document.getElementById('scenarioLessons');
+const tryAnotherBtn = document.getElementById('tryAnotherBtn');
+const replayScenarioBtn = document.getElementById('replayScenarioBtn');
+
+// Global Variables
+let currentLearningPage = 0;
+let totalLearningPages = 5;
+let currentScenario = null;
+let predatorStage = 0;
+let redFlagsDetected = 0;
+let userResponses = [];
+let detectedFlags = [];
+let safetyPoints = 0;
+let chatCompleted = false;
+
+// Loading screen transition
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        // Ensure loading screen exists
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                // Ensure main app exists
+                const mainApp = document.getElementById('mainApp');
+                if (mainApp) {
+                    mainApp.classList.remove('hidden');
+                } else {
+                    console.error("Main app element not found!");
+                }
+            }, 500);
+        } else {
+            console.error("Loading screen element not found!");
+            // Attempt to show main content anyway
+            const mainApp = document.getElementById('mainApp');
+            if (mainApp) {
+                mainApp.classList.remove('hidden');
+            }
+        }
+    }, 6000); // Reduced from 7000 to 6000ms for faster loading
+});
+
+// Fallback function to ensure content always loads
+function ensureContentLoaded() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainApp = document.getElementById('mainApp');
+    
+    if (loadingScreen && loadingScreen.style.display !== 'none') {
+        console.log("Forcing content to load (fallback)");
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.display = 'none';
+        
+        if (mainApp) {
+            mainApp.classList.remove('hidden');
+        }
+    }
+}
+
+// Set a fallback timeout in case the loading screen gets stuck
+setTimeout(ensureContentLoaded, 10000); // 10 seconds max
+
+// Additional chat elements
+const chatInputArea = document.getElementById('chatInputArea');
 
 // Show learning module on Start Learning click
 document.getElementById('startLearningBtn').addEventListener('click', function() {
     document.getElementById('learningModule').classList.remove('hidden');
-    document.getElementById('mainApp').classList.add('hidden');
+    
+    // Reset to module 1
     document.querySelectorAll('.module-step').forEach(div => div.classList.add('hidden'));
     document.getElementById('module1').classList.remove('hidden');
+    
+    // Reset progress bar to module 1
+    updateProgressBar(1);
 });
 document.getElementById('nextToModule2').addEventListener('click', function() {
     document.getElementById('module1').classList.add('hidden');
     document.getElementById('module2').classList.remove('hidden');
+    updateProgressBar(2);
 });
 document.getElementById('nextToModule3').addEventListener('click', function() {
     document.getElementById('module2').classList.add('hidden');
     document.getElementById('module3').classList.remove('hidden');
+    updateProgressBar(3);
 });
 document.getElementById('nextToModule4').addEventListener('click', function() {
     document.getElementById('module3').classList.add('hidden');
     document.getElementById('module4').classList.remove('hidden');
+    updateProgressBar(4);
 });
 document.getElementById('nextToModule5').addEventListener('click', function() {
     document.getElementById('module4').classList.add('hidden');
     document.getElementById('module5').classList.remove('hidden');
+    updateProgressBar(5);
 });
 document.getElementById('nextToModule6').addEventListener('click', function() {
     document.getElementById('module5').classList.add('hidden');
     document.getElementById('module6').classList.remove('hidden');
+    updateProgressBar(6);
 });
 document.getElementById('closeLearningBtn').addEventListener('click', function() {
     document.getElementById('learningModule').classList.add('hidden');
@@ -118,7 +226,11 @@ const scenarios = [
 // Open chat modal
 chatSimBtn.addEventListener('click', () => {
     chatModal.classList.add('active');
-    startChatScenario(scenarios[0]);
+    
+    // Reset to scenario selection view
+    scenarioSelection.classList.remove('hidden');
+    chatInterface.classList.add('hidden');
+    helpContent.classList.add('hidden');
 });
 
 // Close chat modal
@@ -126,6 +238,21 @@ closeChatBtn.addEventListener('click', () => {
     chatModal.classList.remove('active');
     // Clear chat messages when closing
     chatMessages.innerHTML = '';
+    currentScenario = null;
+    predatorStage = 0;
+    redFlagsDetected = 0;
+});
+
+// Initialize scenario selection
+document.querySelectorAll('.scenario-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const scenario = this.dataset.scenario;
+        startChatScenario(scenario);
+        
+        // Switch from scenario selection to chat interface
+        scenarioSelection.classList.add('hidden');
+        chatInterface.classList.remove('hidden');
+    });
 });
 
 // Send message
@@ -136,320 +263,525 @@ chatInput.addEventListener('keypress', (e) => {
     }
 });
 
+// Help button
+helpChatBtn.addEventListener('click', function() {
+    helpContent.classList.remove('hidden');
+    chatInterface.classList.add('hidden');
+    scenarioSelection.classList.add('hidden');
+});
+
+closeHelpBtn.addEventListener('click', function() {
+    helpContent.classList.add('hidden');
+    
+    // Return to the appropriate view
+    if (currentScenario) {
+        chatInterface.classList.remove('hidden');
+    } else {
+        scenarioSelection.classList.remove('hidden');
+    }
+});
+
+// Warning panel interaction
+warningText.addEventListener('click', function() {
+    warningDetails.classList.toggle('expanded');
+});
+
+// Reset chat button
+resetChatBtn.addEventListener('click', function() {
+    // Return to scenario selection
+    scenarioSelection.classList.remove('hidden');
+    chatInterface.classList.add('hidden');
+    helpContent.classList.add('hidden');
+    
+    // Clear chat
+    chatMessages.innerHTML = '';
+    currentScenario = null;
+    predatorStage = 0;
+    redFlagsDetected = 0;
+    userResponses = [];
+    detectedFlags = [];
+    safetyPoints = 0;
+});
+
+// Warning panel buttons
+warningIgnoreBtn.addEventListener('click', function() {
+    warningPanel.classList.add('hidden');
+});
+
+warningHelpBtn.addEventListener('click', function() {
+    warningPanel.classList.add('hidden');
+    
+    // Show safety tips
+    showSafetyTip("If you see these warning signs in real life, tell a trusted adult right away.");
+});
+
+// Report button
+reportChatBtn.addEventListener('click', function() {
+    showSafetyTip("Great job recognizing problematic behavior! In real life, you should report this conversation to a trusted adult and the platform.");
+});
+
+// Chat scenarios
+const chatScenarios = {
+    gaming: {
+        name: "Gaming Friend",
+        icon: "🎮",
+        stranger: "GamerPro2010",
+        initialMessages: [
+            { text: "Hey there! I saw you in that match yesterday. You're really good!", delay: 1000, flag: false },
+            { text: "Do you play often? I'm always looking for cool people to game with.", delay: 3000, flag: false }
+        ],
+        responses: {
+            stage1: [
+                { text: "Thanks! Yeah, I've been playing for a while. What other games do you like?", safe: true },
+                { text: "Thanks! I usually play after school at home.", safe: false, issue: "sharing schedule" }
+            ],
+            stage2: [
+                { text: "I just like to keep my gaming and personal life separate.", safe: true },
+                { text: "Maybe, what's your Instagram?", safe: false, issue: "connecting on other platforms too soon" }
+            ],
+            stage3: [
+                { text: "No thanks, I don't share personal photos with people I don't know well.", safe: true },
+                { text: "Sure, let me see if I can find one.", safe: false, issue: "sharing personal photos" }
+            ]
+        },
+        predatorResponses: [
+            // Stage 1
+            [
+                "Cool! I play lots of games. Do you have Discord or Instagram so we can chat while gaming?",
+                "I'd love to play together sometime. Where are you from?",
+                "Nice! Do you game alone or with friends? What school do you go to?"
+            ],
+            // Stage 2
+            [
+                "I understand. But it's easier to chat elsewhere. Discord maybe? I've got some game cheats I could send you.",
+                "That's cool. You seem more mature than other players your age. How old are you exactly?",
+                "No problem. Do you have any photos of yourself? I like to know who I'm playing with."
+            ],
+            // Stage 3
+            [
+                "We've been chatting for a while now, I feel like we're friends. I'd love to meet up sometime and game together in person.",
+                "Come on, just one photo. I've shared stuff with you. This should be our little secret.",
+                "If you send a photo, I can help you join my exclusive gaming group. But don't tell anyone else."
+            ]
+        ]
+    },
+    social: {
+        name: "Social Media Request",
+        icon: "📱",
+        stranger: "Alex_J_1995",
+        initialMessages: [
+            { text: "Hey there! I saw your profile and thought your posts are really cool.", delay: 1000, flag: false },
+            { text: "I like the same music you do! It's hard to find people with good taste these days.", delay: 3000, flag: false }
+        ],
+        responses: {
+            stage1: [
+                { text: "Thanks! What kind of music are you into?", safe: true },
+                { text: "Thanks! Yeah I post a lot from my bedroom lol", safe: false, issue: "hinting at location" }
+            ],
+            stage2: [
+                { text: "I prefer to keep my account private, but thanks for the interest!", safe: true },
+                { text: "Maybe, what's your phone number?", safe: false, issue: "sharing contact information" }
+            ],
+            stage3: [
+                { text: "I don't meet up with people I've only talked to online.", safe: true },
+                { text: "Maybe, where were you thinking?", safe: false, issue: "agreeing to meet" }
+            ]
+        },
+        predatorResponses: [
+            // Stage 1
+            [
+                "I like all kinds of music! Your profile pic is cute. Is that your bedroom in the background?",
+                "Me too! You look really cool in your photos. Do you have a private account I could follow?",
+                "That's awesome. You seem really mature compared to others your age. How old are you?"
+            ],
+            // Stage 2
+            [
+                "I'd love to chat more directly. Can I get your number or Snapchat?",
+                "You seem really cool. I'm actually a photographer and could help you with some professional shots if you want.",
+                "I have concert tickets for this weekend. We should hang out. I could pick you up."
+            ],
+            // Stage 3
+            [
+                "I'd love to meet up sometime. I can drive to your area. What school are you near?",
+                "We have such a connection. Let's keep this between us though - other people might not understand our friendship.",
+                "I could bring you some merch from your favorite band. Just meet me at the mall. Don't tell your parents, they might not understand."
+            ]
+        ]
+    },
+    talent: {
+        name: "Talent Scout",
+        icon: "🌟",
+        stranger: "TalentFinderPro",
+        initialMessages: [
+            { text: "Hi there! I'm a talent scout for ModelSearch Agency. I came across your profile and you have exactly the look we're searching for!", delay: 1000, flag: true },
+            { text: "We work with major brands and could offer you some great opportunities. Would you be interested in hearing more?", delay: 3000, flag: false }
+        ],
+        responses: {
+            stage1: [
+                { text: "If you're legitimate, you can contact my parents through proper channels.", safe: true },
+                { text: "Wow really? That sounds amazing!", safe: false, issue: "showing excitement without verification" }
+            ],
+            stage2: [
+                { text: "I'd need my parents to be involved in any meeting or photoshoot.", safe: true },
+                { text: "I could send you some selfies first if you want.", safe: false, issue: "sending photos to stranger" }
+            ],
+            stage3: [
+                { text: "I'm not comfortable with that. Real agencies don't ask for money upfront.", safe: true },
+                { text: "OK I'll see if I can get the money.", safe: false, issue: "falling for potential scam" }
+            ]
+        },
+        predatorResponses: [
+            // Stage 1
+            [
+                "We usually work directly with young talent rather than parents at first. Can you send more photos of yourself so I can show my team?",
+                "You have a unique look! How tall are you? Can you tell me your measurements?",
+                "This could be a huge opportunity for you! I can offer a private photoshoot to build your portfolio."
+            ],
+            // Stage 2
+            [
+                "We prefer to meet with just the talent first. Can you come to our studio this weekend? I'll text you the address.",
+                "Parents sometimes complicate things. You seem mature enough to handle this professionally on your own.",
+                "Before we proceed, we need a small deposit of $200 to secure your spot. It shows us you're serious."
+            ],
+            // Stage 3
+            [
+                "This is how the industry works. The fee covers our costs. You can transfer it to my personal account for now.",
+                "If you can't tell your parents, maybe you can use your own money? This opportunity won't wait.",
+                "Let's keep this between us for now. Once you're famous, your parents will thank you!"
+            ]
+        ]
+    },
+    romantic: {
+        name: "Romantic Interest",
+        icon: "❤️",
+        stranger: "Jay_25",
+        initialMessages: [
+            { sender: "stranger", text: "Hey there gorgeous! Your profile caught my eye. You're not like other people your age.", delay: 1000, flag: true },
+            { sender: "stranger", text: "I know I'm a bit older but age is just a number when there's a connection, right?", delay: 3000, flag: true }
+        ],
+        responses: {
+            stage1: [
+                { text: "I'm not interested in talking with adults this way.", safe: true },
+                { text: "Thanks! How old are you?", safe: false, issue: "engaging with inappropriate romantic interest" }
+            ],
+            stage2: [
+                { text: "I'm going to block and report you. This is inappropriate.", safe: true },
+                { text: "I've never had an older person interested in me before...", safe: false, issue: "showing interest in inappropriate relationship" }
+            ],
+            stage3: [
+                { text: "No. I'm ending this conversation and telling my parents.", safe: true },
+                { text: "I'm not sure... what kind of pictures?", safe: false, issue: "considering sending photos" }
+            ]
+        },
+        predatorResponses: [
+            // Stage 1
+            [
+                "I'm 25 but very mature. You seem mature too. Do you date older guys?",
+                "You're so beautiful/handsome. Do you have more photos? Maybe some just for me?",
+                "I bet your parents are strict. They probably wouldn't understand our connection."
+            ],
+            // Stage 2
+            [
+                "I can teach you things boys/girls your age don't know about. Have you ever been with someone older?",
+                "I can't stop thinking about you. I know it's wrong but I really want to meet you.",
+                "You're making me feel special. Could you send me some more private pictures?"
+            ],
+            // Stage 3
+            [
+                "Let's meet somewhere private. I can pick you up where no one will see us.",
+                "This is our secret, right? If you tell anyone, I could get in trouble, and you wouldn't want that.",
+                "If you really care about me, you'll send those pictures. That's how you show someone you trust them."
+            ]
+        ]
+    }
+};
+
 function sendMessage() {
     const message = chatInput.value.trim();
-    if (message) {
-        addMessage('user', message);
-        chatInput.value = '';
+    if (!message) return;
+    
+    // Add user message
+    addMessage('user', message);
+    chatInput.value = '';
+    
+    // Store user response for analysis
+    userResponses.push(message);
+    
+    // Check for potentially risky information in user messages
+    checkMessageForRisks(message);
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Generate predator response based on current scenario and stage
+    setTimeout(() => {
+        hideTypingIndicator();
         
-        // Simulate response after a delay
-        setTimeout(() => {
-            const responses = [
-                "That's interesting! Tell me more about yourself.",
-                "You seem really nice. Do you have any hobbies?",
-                "I feel like we have a special connection. Do you?",
-                "Can we keep this chat between us? It's our little secret.",
-                "You're so mature for your age! Most people your age don't understand me like you do."
-            ];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-            addMessage('stranger', randomResponse, false, randomResponse.includes('secret') || randomResponse.includes('mature'));
-        }, 1000 + Math.random() * 2000);
-    }
+        if (currentScenario) {
+            // Get a predator response based on the current stage
+            let response = "";
+            if (predatorStage < currentScenario.predatorResponses.length) {
+                const responsesForStage = currentScenario.predatorResponses[predatorStage];
+                response = responsesForStage[Math.floor(Math.random() * responsesForStage.length)];
+            } else {
+                response = "Hey, why don't you give me your phone number so we can talk more directly?";
+            }
+            
+            // Determine if this message has red flags
+            const hasRedFlags = containsRedFlags(response);
+            
+            // Add the predator's message
+            addMessage('stranger', response, false, hasRedFlags);
+            
+            // Show a warning if the message has red flags
+            if (hasRedFlags) {
+                redFlagsDetected++;
+                setTimeout(() => {
+                    showWarning(detectRedFlagType(response));
+                }, 1000);
+            }
+            
+            // Offer response options on certain messages
+            if (Math.random() > 0.5) {
+                setTimeout(() => {
+                    showResponseOptions();
+                }, 1500);
+            }
+            
+            // Advance to next stage
+            predatorStage++;
+            
+            // Show a random safety tip occasionally
+            if (predatorStage > 1 && Math.random() > 0.7) {
+                const tips = [
+                    "Remember: People online aren't always who they claim to be.",
+                    "Never share your address, school name, or when you're home alone.",
+                    "Be cautious if someone asks for photos or to meet in person.",
+                    "If someone makes you uncomfortable, tell a trusted adult.",
+                    "Your personal information should stay private online."
+                ];
+                
+                showSafetyTip(tips[Math.floor(Math.random() * tips.length)]);
+            }
+        }
+    }, 1500 + Math.random() * 1500); // Variable delay for realism
 }
 
-function startChatScenario(scenario) {
+function startChatScenario(scenarioType) {
+    // Clear previous chat
     chatMessages.innerHTML = '';
-    scenario.messages.forEach((msg, index) => {
+    
+    // Initialize scenario
+    currentScenario = chatScenarios[scenarioType];
+    
+    // Reset tracking variables
+    predatorStage = 0;
+    redFlagsDetected = 0;
+    userResponses = [];
+    detectedFlags = [];
+    safetyPoints = 0;
+    chatCompleted = false;
+    
+    // Hide any feedback, warnings, or summary panels
+    warningPanel.classList.add('hidden');
+    responseFeedback.classList.add('hidden');
+    safetyTips.classList.add('hidden');
+    scenarioSummary.classList.add('hidden');
+    
+    // Update UI indicators
+    updateSafetyDisplay();
+    
+    // Add welcome message
+    addSystemMessage(`You are now chatting with <strong>${currentScenario.stranger}</strong>. This is a simulation to practice identifying warning signs.`);
+    
+    // Initialize emotion display
+    strangerName.textContent = currentScenario.stranger;
+    updateEmotionDisplay('friendly');
+    
+    // Send initial messages with typing indicators and delays
+    currentScenario.initialMessages.forEach((msg, index) => {
         setTimeout(() => {
-            addMessage(msg.sender, msg.text, false, msg.flag);
-        }, msg.delay);
+            if (index === 0) {
+                showTypingIndicator();
+            }
+            
+            setTimeout(() => {
+                hideTypingIndicator();
+                addMessage('stranger', msg.text, false, msg.flag);
+                
+                // Show a warning if this message has a flag
+                if (msg.flag) {
+                    setTimeout(() => {
+                        showWarning(detectRedFlagType(msg.text));
+                    }, 1000);
+                }
+                
+                // Show response options after the last initial message
+                if (index === currentScenario.initialMessages.length - 1) {
+                    setTimeout(() => {
+                        showResponseOptions();
+                    }, 1000);
+                }
+            }, msg.delay);
+            
+        }, (index * 2000) + 1000);
     });
 }
 
-function addMessage(sender, text, isUser = sender === 'user', isFlagged = false) {
+// Add a message to the chat
+function addMessage(sender, text, isResponse = false, isFlag = false) {
     const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', 'mb-4');
+    messageDiv.classList.add('message', 'mb-3', 'p-2', 'rounded');
     
-    if (isUser) {
-        messageDiv.classList.add('text-right');
-        messageDiv.innerHTML = `
-            <div class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg max-w-xs md:max-w-md">
-                ${text}
-            </div>
-        `;
-    } else {
-        messageDiv.classList.add('text-left');
-        if (isFlagged) {
-            messageDiv.classList.add('red-flag');
-        }
-        messageDiv.innerHTML = `
-            <div class="inline-block bg-gray-700 text-white px-4 py-2 rounded-lg max-w-xs md:max-w-md">
-                ${text}
-                ${isFlagged ? '<div class="text-xs text-red-400 mt-1">🚩 This message contains potential red flags</div>' : ''}
-            </div>
-        `;
+    // Add safety classes for visual feedback
+    if (isResponse) {
+        messageDiv.classList.add(isFlag ? 'unsafe' : 'safe');
     }
+    
+    const senderSpan = document.createElement('span');
+    senderSpan.classList.add('text-xs', 'font-semibold');
+    
+    if (sender === 'user') {
+        senderSpan.classList.add('text-green-400');
+        senderSpan.textContent = 'You:';
+        messageDiv.classList.add('bg-gray-800');
+    } else {
+        senderSpan.classList.add('text-purple-400');
+        senderSpan.textContent = currentScenario.stranger + ':';
+        messageDiv.classList.add('bg-gray-700');
+        
+        // Check for red flags
+        if (isFlag) {
+            setTimeout(() => {
+                const flagType = detectRedFlagType(text);
+                showWarning(flagType);
+            }, 1500);
+            
+            // Update emotion display for manipulative messages
+            updateEmotionDisplay('manipulative');
+        }
+    }
+    
+    const textP = document.createElement('p');
+    textP.classList.add('mt-1');
+    textP.textContent = text;
+    
+    messageDiv.appendChild(senderSpan);
+    messageDiv.appendChild(textP);
     
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Quiz functionality
-const quickQuizBtn = document.getElementById('quickQuizBtn');
-const quizModal = document.getElementById('quizModal');
-const closeQuizBtn = document.getElementById('closeQuizBtn');
-const quizQuestion = document.getElementById('quizQuestion');
-const quizOptions = document.getElementById('quizOptions');
-const quizProgressBar = document.getElementById('quizProgressBar');
-const quizContent = document.getElementById('quizContent');
-const quizResult = document.getElementById('quizResult');
-const scoreValue = document.getElementById('scoreValue');
-const totalQuestions = document.getElementById('totalQuestions');
-const resultFeedback = document.getElementById('resultFeedback');
-const quizFinishBtn = document.getElementById('quizFinishBtn');
+// Add a system message to the chat
+function addSystemMessage(message) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('system-message', 'text-xs', 'text-center', 'text-gray-400', 'my-2', 'py-1');
+    messageDiv.innerHTML = message;
+    chatMessages.appendChild(messageDiv);
+}
 
-// Quiz questions
-const quizQuestions = [
-    {
-        question: "Someone you just met online asks for your personal photos. What should you do?",
-        options: [
-            { text: "Send them because they seem nice", correct: false, feedback: "Never share personal photos with strangers online. This is a common grooming tactic." },
-            { text: "Block and report them immediately", correct: true, feedback: "Correct! This is inappropriate behavior and should be reported." },
-            { text: "Ask them to send their photos first", correct: false, feedback: "Even if they send photos first, you shouldn't share personal images with strangers." },
-            { text: "Tell them you'll think about it", correct: false, feedback: "This still leaves the door open for potential grooming. It's best to block and report." }
-        ]
-    },
-    {
-        question: "An online friend asks you to keep your conversations secret. What does this indicate?",
-        options: [
-            { text: "They value your privacy", correct: false, feedback: "No, this is a major red flag. Predators often ask victims to keep conversations secret." },
-            { text: "They might be planning something inappropriate", correct: true, feedback: "Correct! This is a classic grooming tactic to isolate victims." },
-            { text: "They're just being cautious", correct: false, feedback: "No, legitimate friends don’t ask you to keep all conversations secret." },
-            { text: "They're shy about their interests", correct: false, feedback: "This is unlikely. Secrecy is a warning sign of grooming behavior." }
-        ]
-    },
-    {
-        question: "What should you do if someone online makes you uncomfortable?",
-        options: [
-            { text: "Ignore it and hope they stop", correct: false, feedback: "This isn’t the best approach. You should take action to protect yourself." },
-            { text: "Tell them directly that you're uncomfortable", correct: false, feedback: "This might help, but the safest option is to block and report them." },
-            { text: "Block them and tell a trusted adult", correct: true, feedback: "Correct! This is the safest and most responsible action." },
-            { text: "Try to understand why they're acting that way", correct: false, feedback: "Your safety is more important than understanding their reasons." }
-        ]
-    },
-    {
-        question: "Someone compliments you excessively and says you're 'mature for your age'. What does this likely mean?",
-        options: [
-            { text: "They genuinely admire your personality", correct: false, feedback: "This is unlikely. Predators often use this phrase to groom young people." },
-            { text: "They might be trying to manipulate you", correct: true, feedback: "Correct! This is a common grooming tactic to make you feel special." },
-            { text: "They're just being friendly", correct: false, feedback: "Excessive compliments about maturity are often a red flag." },
-            { text: "They want to be your mentor", correct: false, feedback: "Legitimate mentors don’t use this kind of language with young people." }
-        ]
-    },
-    {
-        question: "What personal information is generally safe to share online?",
-        options: [
-            { text: "Your full name and address", correct: false, feedback: "Never share this information with people you don’t know in real life." },
-            { text: "Your favorite movies and hobbies", correct: true, feedback: "Correct! General interests are usually safe to share." },
-            { text: "Your school name and schedule", correct: false, feedback: "This could help someone locate you — never share it online." },
-            { text: "Your phone number and email", correct: false, feedback: "This is private information and should not be shared online." }
-        ]
-    },
-    {
-        question: "Why might an online predator try to isolate you from friends and family?",
-        options: [
-            { text: "So they can surprise you with a gift", correct: false, feedback: "Predators isolate to gain control, not to surprise you." },
-            { text: "So you trust them more than others", correct: true, feedback: "Correct! Isolation is a grooming tactic to gain full influence over you." },
-            { text: "Because they feel shy around groups", correct: false, feedback: "This is a manipulation tactic, not shyness." },
-            { text: "So they can help you focus better", correct: false, feedback: "This is not a healthy reason and is likely manipulation." }
-        ]
-    },
-    {
-        question: "If someone sends you an inappropriate image, what should you do?",
-        options: [
-            { text: "Reply to ask why they sent it", correct: false, feedback: "Do not engage. It could encourage further harm." },
-            { text: "Delete it and pretend it didn’t happen", correct: false, feedback: "You should take action, not ignore it." },
-            { text: "Save it to show your friends", correct: false, feedback: "Never share or keep inappropriate content — it’s illegal and harmful." },
-            { text: "Report them and tell a trusted adult", correct: true, feedback: "Correct! Reporting and telling an adult is the responsible step." }
-        ]
-    },
-    {
-        question: "A stranger in an online game wants to chat privately and sends you a link. What should you do?",
-        options: [
-            { text: "Click the link to see what it is", correct: false, feedback: "Links from strangers could be harmful or phishing scams." },
-            { text: "Join the private chat out of curiosity", correct: false, feedback: "Avoid private chats with strangers — it’s risky." },
-            { text: "Ignore them or report the behavior", correct: true, feedback: "Correct! This is the safest way to handle suspicious behavior." },
-            { text: "Tell them to ask in the main chat", correct: false, feedback: "Even if moved to the main chat, the person could still be harmful." }
-        ]
-    },
-    {
-        question: "Which of these is a red flag in online conversations?",
-        options: [
-            { text: "They ask you about your hobbies", correct: false, feedback: "That’s a normal question — not a red flag by itself." },
-            { text: "They want to know your favorite movies", correct: false, feedback: "General questions are usually safe." },
-            { text: "They ask you not to tell anyone about your chats", correct: true, feedback: "Correct! This is a common predator tactic." },
-            { text: "They send you memes and jokes", correct: false, feedback: "This is normal unless the content becomes inappropriate." }
-        ]
-    },
-    {
-        question: "What’s the most important step to protect yourself online?",
-        options: [
-            { text: "Have lots of online friends", correct: false, feedback: "More friends doesn’t mean more safety." },
-            { text: "Share less and keep profiles private", correct: true, feedback: "Correct! Controlling what you share protects your identity." },
-            { text: "Use the same password everywhere", correct: false, feedback: "This puts all your accounts at risk." },
-            { text: "Reply to everyone to be polite", correct: false, feedback: "You don’t owe strangers a reply — your safety comes first." }
-        ]
+// Show typing indicator
+function showTypingIndicator() {
+    typingIndicator.classList.remove('hidden');
+}
+
+// Hide typing indicator
+function hideTypingIndicator() {
+    typingIndicator.classList.add('hidden');
+}
+
+// Show warning panel
+function showWarning(flagType) {
+    // Add to detected flags list if not already there
+    if (!detectedFlags.includes(flagType.type)) {
+        detectedFlags.push(flagType.type);
     }
-];
+    
+    redFlagsDetected++;
+    warningText.textContent = flagType.message;
+    warningExplanation.textContent = flagType.explanation;
+    warningPanel.classList.remove('hidden');
+    
+    // Update safety score display
+    updateSafetyDisplay();
+}
 
-
-let currentQuestionIndex = 0;
-let score = 0;
-let selectedOptions = [];
-
-// Open quiz modal
-quickQuizBtn.addEventListener('click', () => {
-    quizModal.classList.add('active');
-    currentQuestionIndex = 0;
-    score = 0;
-    selectedOptions = [];
-    showQuestion();
-});
-
-// Close quiz modal
-closeQuizBtn.addEventListener('click', () => {
-    quizModal.classList.remove('active');
-    resetQuiz();
-});
-
-// Finish quiz
-quizFinishBtn.addEventListener('click', () => {
-    quizModal.classList.remove('active');
-    resetQuiz();
-});
-
-function showQuestion() {
-    if (currentQuestionIndex < quizQuestions.length) {
-        const question = quizQuestions[currentQuestionIndex];
-        quizQuestion.textContent = question.question;
-        quizOptions.innerHTML = '';
-        
-        // Update progress bar
-        const progress = ((currentQuestionIndex) / quizQuestions.length) * 100;
-        quizProgressBar.style.width = `${progress}%`;
-        
-        // Create options
-        question.options.forEach((option, index) => {
-            const optionElement = document.createElement('div');
-            optionElement.classList.add('quiz-option');
-            optionElement.textContent = option.text;
-            optionElement.dataset.index = index;
-            optionElement.addEventListener('click', () => selectOption(optionElement, index));
-            quizOptions.appendChild(optionElement);
-        });
-        
-        // Show quiz content and hide result
-        quizContent.style.display = 'block';
-        quizResult.style.display = 'none';
-    } else {
-        showResults();
+// Update emotional display of the stranger
+function updateEmotionDisplay(emotion) {
+    emotionalResponse.classList.remove('hidden');
+    strangerName.textContent = currentScenario.stranger;
+    
+    const avatarCircle = avatarEmoji.parentElement;
+    avatarCircle.className = 'avatar-circle'; // Reset classes
+    
+    switch(emotion) {
+        case 'friendly':
+            avatarEmoji.textContent = '🙂';
+            emotionText.textContent = 'seems friendly';
+            break;
+        case 'happy':
+            avatarEmoji.textContent = '😊';
+            emotionText.textContent = 'appears pleased';
+            avatarCircle.classList.add('happy');
+            break;
+        case 'upset':
+            avatarEmoji.textContent = '😠';
+            emotionText.textContent = 'seems upset';
+            avatarCircle.classList.add('upset');
+            break;
+        case 'manipulative':
+            avatarEmoji.textContent = '🤔';
+            emotionText.textContent = 'is being manipulative';
+            avatarCircle.classList.add('manipulative');
+            break;
+        case 'persistent':
+            avatarEmoji.textContent = '😒';
+            emotionText.textContent = 'is being persistent';
+            avatarCircle.classList.add('manipulative');
+            break;
     }
 }
 
-function selectOption(optionElement, optionIndex) {
-    const question = quizQuestions[currentQuestionIndex];
-    const option = question.options[optionIndex];
+// Show response feedback
+function showResponseFeedback(isSafe, message, issue = '') {
+    responseFeedback.classList.remove('hidden');
     
-    // Disable all options to prevent multiple selections
-    const allOptions = quizOptions.querySelectorAll('.quiz-option');
-    allOptions.forEach(opt => {
-        opt.style.pointerEvents = 'none';
-    });
-    
-    // Check if this is a multiple correct answer question
-    const isMultipleCorrect = question.note && question.note.includes("two correct answers");
-    
-    if (isMultipleCorrect) {
-        // For multiple correct answers, we need to track selected options
-        selectedOptions.push(optionIndex);
-        
-        // Mark the selected option
-        if (option.correct) {
-            optionElement.classList.add('correct');
-        } else {
-            optionElement.classList.add('incorrect');
-        }
-        
-        // Check if we've selected two options
-        if (selectedOptions.length === 2) {
-            // Show correct answers for all options
-            question.options.forEach((opt, idx) => {
-                if (opt.correct && !selectedOptions.includes(idx)) {
-                    allOptions[idx].classList.add('correct');
-                }
-            });
-            
-            // Calculate score (both must be correct to get a point)
-            const bothCorrect = selectedOptions.every(idx => question.options[idx].correct);
-            if (bothCorrect) {
-                score++;
-            }
-            
-            // Move to next question after delay
-            setTimeout(() => {
-                currentQuestionIndex++;
-                showQuestion();
-            }, 2000);
-        }
+    if (isSafe) {
+        feedbackSafe.classList.remove('hidden');
+        feedbackUnsafe.classList.add('hidden');
+        feedbackSafeText.textContent = message || 'Good choice! This response keeps you safe.';
+        safetyPoints++;
     } else {
-        // For single correct answer questions
-        if (option.correct) {
-            optionElement.classList.add('correct');
-            score++;
-        } else {
-            optionElement.classList.add('incorrect');
-            // Show the correct answer
-            const correctIndex = question.options.findIndex(opt => opt.correct);
-            allOptions[correctIndex].classList.add('correct');
-        }
-        
-        // Move to next question after delay
-        setTimeout(() => {
-            currentQuestionIndex++;
-            showQuestion();
-        }, 2000);
-    }
-}
-
-function showResults() {
-    quizContent.style.display = 'none';
-    quizResult.style.display = 'block';
-    
-    // Update result display
-    scoreValue.textContent = score;
-    totalQuestions.textContent = quizQuestions.length;
-    
-    // Provide feedback based on score
-    const percentage = (score / quizQuestions.length) * 100;
-    if (percentage >= 80) {
-        resultFeedback.textContent = "Excellent! You're very aware of online safety risks.";
-    } else if (percentage >= 50) {
-        resultFeedback.textContent = "Good job! You know some safety tips but could learn more.";
-    } else {
-        resultFeedback.textContent = "Be careful! It's important to learn more about online safety.";
+        feedbackSafe.classList.add('hidden');
+        feedbackUnsafe.classList.remove('hidden');
+        feedbackUnsafeText.textContent = message || `This response puts you at risk by ${issue}.`;
     }
     
-    // Complete progress bar
-    quizProgressBar.style.width = '100%';
+    // Update safety score
+    updateSafetyDisplay();
+    
+    // Hide feedback after a delay
+    setTimeout(() => {
+        responseFeedback.classList.add('hidden');
+    }, 4000);
 }
 
-function resetQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    selectedOptions = [];
-    quizContent.style.display = 'block';
-    quizResult.style.display = 'none';
-    quizProgressBar.style.width = '0%';
+// Update safety display
+function updateSafetyDisplay() {
+    safetyScore.textContent = safetyPoints;
+    stageIndicator.textContent = predatorStage + 1;
+}
+
+// Show safety tip
+function showSafetyTip(tip) {
+    tipContent.textContent = tip;
+    safetyTips.classList.remove('hidden');
+    
+    // Hide tip after some time
+    setTimeout(() => {
+        safetyTips.classList.add('hidden');
+    }, 6000);
 }
 
 // Learning Module Enhancements
@@ -459,39 +791,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const moduleCount = moduleSteps.length;
     const progressBar = document.getElementById('moduleProgressBar');
     const currentModuleNum = document.getElementById('currentModuleNum');
-    
-    // Back Button Navigation
+      // Back Button Navigation
     document.getElementById('backToModule1')?.addEventListener('click', function() {
-        updateModule(1);
+        document.querySelectorAll('.module-step').forEach(step => step.classList.add('hidden'));
+        document.getElementById('module1').classList.remove('hidden');
+        updateProgressBar(1);
     });
     document.getElementById('backToModule2')?.addEventListener('click', function() {
-        updateModule(2);
+        document.querySelectorAll('.module-step').forEach(step => step.classList.add('hidden'));
+        document.getElementById('module2').classList.remove('hidden');
+        updateProgressBar(2);
     });
     document.getElementById('backToModule3')?.addEventListener('click', function() {
-        updateModule(3);
+        document.querySelectorAll('.module-step').forEach(step => step.classList.add('hidden'));
+        document.getElementById('module3').classList.remove('hidden');
+        updateProgressBar(3);
     });
     document.getElementById('backToModule4')?.addEventListener('click', function() {
-        updateModule(4);
+        document.querySelectorAll('.module-step').forEach(step => step.classList.add('hidden'));
+        document.getElementById('module4').classList.remove('hidden');
+        updateProgressBar(4);
     });
     document.getElementById('backToModule5')?.addEventListener('click', function() {
-        updateModule(5);
+        document.querySelectorAll('.module-step').forEach(step => step.classList.add('hidden'));
+        document.getElementById('module5').classList.remove('hidden');
+        updateProgressBar(5);
     });
-    
-    // Update progress bar and current module number
-    function updateModule(moduleNumber) {
-        // Hide all modules
-        moduleSteps.forEach(step => step.classList.add('hidden'));
-        
-        // Show the current module
-        document.getElementById(`module${moduleNumber}`).classList.remove('hidden');
-        
-        // Update progress bar
-        const progress = (moduleNumber / moduleCount) * 100;
-        progressBar.style.width = `${progress}%`;
-        
-        // Update module number
-        currentModuleNum.textContent = moduleNumber;
-    }
     
     // Interactive Elements - Message Cards
     const messageCards = document.querySelectorAll('.message-card');
@@ -608,5 +933,288 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("That's not the safest choice. Try again!");
         }
     });
+});
+
+// Skip intro button
+document.addEventListener('DOMContentLoaded', function() {
+    const skipIntroBtn = document.getElementById('skipIntroBtn');
+    if (skipIntroBtn) {
+        skipIntroBtn.addEventListener('click', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainApp = document.getElementById('mainApp');
+            
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    if (mainApp) {
+                        mainApp.classList.remove('hidden');
+                    }
+                }, 300);
+            }
+        });
+    }
+});
+
+// Detect type of red flag
+function detectRedFlagType(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    if (lowerMessage.includes('secret') || lowerMessage.includes('just between us') || lowerMessage.includes('don\'t tell')) {
+        return {
+            type: 'secrecy',
+            message: 'This person is trying to establish secrecy',
+            explanation: 'Predators often insist on keeping conversations secret to isolate victims and prevent them from getting help or advice from trusted adults.'
+        };
+    } else if (lowerMessage.includes('mature') || lowerMessage.includes('for your age')) {
+        return {
+            type: 'flattery',
+            message: 'This person is using excessive flattery',
+            explanation: 'Predators use flattery about maturity to make young people feel special and to manipulate them into inappropriate situations or conversations.'
+        };
+    } else if (lowerMessage.includes('photo') || lowerMessage.includes('picture') || lowerMessage.includes('selfie')) {
+        return {
+            type: 'photo-request',
+            message: 'This person is requesting personal photos',
+            explanation: 'Asking for photos is often a step toward requesting more inappropriate content, and sharing photos can reveal private information about your location or identity.'
+        };
+    } else if (lowerMessage.includes('meet') || lowerMessage.includes('in person')) {
+        return {
+            type: 'meeting-request',
+            message: 'This person is suggesting an in-person meeting',
+            explanation: 'Meeting someone you only know online is extremely dangerous. Online predators may not be who they claim to be and meeting could put you in physical danger.'
+        };
+    } else if (lowerMessage.includes('where') || lowerMessage.includes('live') || lowerMessage.includes('school') || lowerMessage.includes('address')) {
+        return {
+            type: 'personal-info',
+            message: 'This person is asking for personal information',
+            explanation: 'Sharing details about where you live, go to school, or other identifying information can put your safety at risk and should never be shared with online strangers.'
+        };
+    } else if (lowerMessage.includes('private') || lowerMessage.includes('discord') || lowerMessage.includes('instagram') || lowerMessage.includes('snap')) {
+        return {
+            type: 'platform-switch',
+            message: 'This person wants to switch to a private platform',
+            explanation: 'Moving conversations to more private platforms makes it harder for others to monitor interactions and often precedes inappropriate requests or content.'
+        };
+    } else {
+        return {
+            type: 'manipulation',
+            message: 'This message shows signs of manipulation',
+            explanation: 'This message contains subtle manipulation tactics that could be an attempt to gain your trust or influence your decisions in unsafe ways.'
+        };
+    }
+}
+
+// Show response options
+function showResponseOptions() {
+    // Hide the normal input
+    chatInputArea.classList.add('hidden');
+    
+    // Show response options area
+    responseOptions.classList.remove('hidden');
+    
+    // Clear previous options
+    responseOptionButtons.innerHTML = '';
+    
+    // Get the appropriate responses based on current stage
+    let stageResponses;
+    switch(predatorStage) {
+        case 0:
+            stageResponses = currentScenario.responses.stage1;
+            break;
+        case 1:
+            stageResponses = currentScenario.responses.stage2;
+            break;
+        case 2:
+            stageResponses = currentScenario.responses.stage3;
+            break;
+    }
+    
+    // Add response options
+    stageResponses.forEach(response => {
+        const button = document.createElement('button');
+        button.classList.add('response-option', 'p-3', 'text-left', 'bg-gray-700', 'hover:bg-gray-600', 'rounded', 'text-sm', 'transition');
+        
+        // Add a subtle hint icon
+        const hintIcon = document.createElement('span');
+        hintIcon.classList.add('hint-icon');
+        hintIcon.innerHTML = response.safe ? '<i class="fas fa-shield-alt"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+        button.appendChild(hintIcon);
+        
+        const textSpan = document.createElement('span');
+        textSpan.textContent = response.text;
+        button.appendChild(textSpan);
+        
+        button.addEventListener('click', function() {
+            handleResponseSelection(response);
+        });
+        
+        responseOptionButtons.appendChild(button);
+    });
+}
+
+// Handle response selection
+function handleResponseSelection(response) {
+    // Hide response options
+    responseOptions.classList.add('hidden');
+    
+    // Show normal input again
+    chatInputArea.classList.remove('hidden');
+    
+    // Add user message
+    addMessage('user', response.text);
+    
+    // Store response
+    userResponses.push({ 
+        stage: predatorStage, 
+        response: response.text, 
+        safe: response.safe 
+    });
+    
+    // Show feedback
+    if (response.safe) {
+        showResponseFeedback(true, "Good choice! This response helps keep you safe.");
+        updateEmotionDisplay(Math.random() > 0.5 ? 'upset' : 'persistent');
+    } else {
+        showResponseFeedback(false, `Be careful! ${response.issue.charAt(0).toUpperCase() + response.issue.slice(1)} can put you at risk.`, response.issue);
+        updateEmotionDisplay('happy');
+    }
+    
+    // Process predator's next response
+    setTimeout(() => {
+        showTypingIndicator();
+        
+        setTimeout(() => {
+            hideTypingIndicator();
+            
+            const responses = currentScenario.predatorResponses[predatorStage];
+            const responseIndex = Math.floor(Math.random() * responses.length);
+            const predatorMessage = responses[responseIndex];
+            
+            // Add predator message
+            addMessage('stranger', predatorMessage, false, true);
+            
+            // Move to next stage
+            predatorStage++;
+            
+            // Update stage indicator
+            stageIndicator.textContent = predatorStage + 1;
+            
+            // If we've reached the end of the scenario
+            if (predatorStage >= 3) {
+                // Show scenario summary
+                setTimeout(showScenarioSummary, 2000);
+                chatCompleted = true;
+            } else {
+                // Otherwise, show next response options
+                setTimeout(showResponseOptions, 1500);
+            }
+            
+        }, 1500 + Math.random() * 1000);
+    }, 2000);
+}
+
+// Show scenario summary
+function showScenarioSummary() {
+    // Update final score
+    finalScore.textContent = safetyPoints;
+    
+    // Populate red flags list
+    redFlagsList.innerHTML = '';
+    if (detectedFlags.length > 0) {
+        detectedFlags.forEach(flag => {
+            const li = document.createElement('li');
+            switch(flag) {
+                case 'secrecy':
+                    li.textContent = 'Attempts to establish secrecy';
+                    break;
+                case 'flattery':
+                    li.textContent = 'Excessive flattery and special treatment';
+                    break;
+                case 'photo-request':
+                    li.textContent = 'Requests for personal photos';
+                    break;
+                case 'meeting-request':
+                    li.textContent = 'Attempts to arrange in-person meetings';
+                    break;
+                case 'personal-info':
+                    li.textContent = 'Requests for personal information';
+                    break;
+                case 'platform-switch':
+                    li.textContent = 'Attempts to move conversation to more private platforms';
+                    break;
+                case 'manipulation':
+                    li.textContent = 'General manipulation tactics';
+                    break;
+            }
+            redFlagsList.appendChild(li);
+        });
+    } else {
+        const li = document.createElement('li');
+        li.textContent = 'No red flags were identified';
+        redFlagsList.appendChild(li);
+    }
+    
+    // Populate key lessons
+    let lessonHTML = '';
+    
+    // Custom lessons based on scenario type
+    switch(currentScenario.name) {
+        case 'Gaming Friend':
+            lessonHTML = `
+                <p>• Be cautious when gaming strangers want to connect outside of gaming platforms</p>
+                <p>• Never share personal information even if someone seems friendly</p>
+                <p>• Real gaming friends respect privacy and safety boundaries</p>
+            `;
+            break;
+        case 'Social Media Request':
+            lessonHTML = `
+                <p>• Be careful with friend requests from people you don't know</p>
+                <p>• Keep personal details and locations private on social media</p>
+                <p>• Report and block suspicious accounts</p>
+            `;
+            break;
+        case 'Talent Scout':
+            lessonHTML = `
+                <p>• Legitimate talent scouts don't approach minors directly online</p>
+                <p>• Always involve parents/guardians in any professional opportunities</p>
+                <p>• Be skeptical of promises of fame or special treatment</p>
+            `;
+            break;
+        case 'Romantic Interest':
+            lessonHTML = `
+                <p>• Adults seeking romantic relationships with teens are predators</p>
+                <p>• Age-inappropriate relationships are never acceptable</p>
+                <p>• Report such behavior immediately to a trusted adult</p>
+            `;
+            break;
+    }
+    
+    scenarioLessons.innerHTML = lessonHTML;
+    
+    // Show summary panel
+    scenarioSummary.classList.remove('hidden');
+    
+    // Add system message
+    addSystemMessage('Chat scenario completed. View your summary above.');
+}
+
+// Try another scenario button
+tryAnotherBtn.addEventListener('click', function() {
+    // Hide scenario summary
+    scenarioSummary.classList.add('hidden');
+    
+    // Show scenario selection
+    scenarioSelection.classList.remove('hidden');
+    chatInterface.classList.add('hidden');
+});
+
+// Replay scenario button
+replayScenarioBtn.addEventListener('click', function() {
+    // Hide scenario summary
+    scenarioSummary.classList.add('hidden');
+    
+    // Replay the current scenario
+    startChatScenario(Object.keys(chatScenarios).find(key => chatScenarios[key] === currentScenario));
 });
 

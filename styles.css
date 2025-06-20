@@ -7,6 +7,13 @@
     white-space: nowrap;
     animation: terminalTyping 3.5s steps(40, end);
 }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.animate-fade-in {
+    animation: fadeIn 1s forwards;
+}
 .glitch {
     position: relative;
 }
@@ -53,10 +60,12 @@
 .progress-bar {
     height: 4px;
     background: linear-gradient(90deg, #00ff9d 0%, #ff00c1 100%);
-    animation: progress 2s ease-in-out;
+    animation: progress 6s ease-in-out forwards;
+    width: 0;
 }
 @keyframes progress {
     0% { width: 0% }
+    50% { width: 70% }
     100% { width: 100% }
 }
 .cyber-btn {
@@ -82,8 +91,9 @@
     left: 100%;
 }
 .chat-container {
-    height: 400px;
+    height: 300px;
     overflow-y: auto;
+    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: #00ff9d #0a0a0a;
 }
@@ -99,6 +109,12 @@
 }
 .message {
     animation: messageAppear 0.3s ease-out;
+    transition: all 0.2s ease;
+    animation: fadeIn 0.3s forwards;
+}
+.message.hidden {
+    opacity: 0;
+    transform: translateY(10px);
 }
 @keyframes messageAppear {
     from { opacity: 0; transform: translateY(10px); }
@@ -122,12 +138,36 @@
 .typing-indicator span:nth-child(3) {
     animation-delay: 0.4s;
 }
+.typing-dots {
+    display: inline-flex;
+    align-items: center;
+}
+.typing-dots span {
+    width: 4px;
+    height: 4px;
+    margin: 0 1px;
+    background-color: #9ca3af;
+    border-radius: 50%;
+    display: inline-block;
+    animation: typingAnimation 1.4s infinite ease-in-out both;
+}
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
 @keyframes typingAnimation {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-5px); }
+    0%, 80%, 100% { 
+        transform: scale(0);
+    }
+    40% { 
+        transform: scale(1);
+    }
 }
 .red-flag {
     position: relative;
+    animation: pulse-red 2s ease-in-out 1;
 }
 .red-flag::after {
     content: '🚩 RED FLAG';
@@ -145,6 +185,17 @@
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
+}
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
 }
 .chat-modal {
     position: fixed;
@@ -418,6 +469,15 @@
     position: relative;
 }
 
+/* Enhanced Chat Simulation Styles */
+.scenario-card {
+    transition: all 0.2s ease;
+}
+
+.scenario-card:hover {
+    transform: translateY(-2px);
+}
+
 /* Responsiveness for smaller screens */
 @media (max-width: 640px) {
     .grid-cols-2 {
@@ -429,4 +489,245 @@
         max-width: none;
         margin: 0 10px;
     }
+}
+
+/* Additional Learning Module Fixes */
+#learningModule {
+    overflow-y: auto;
+    padding: 1rem 0;
+    max-height: 100vh;
+}
+
+/* Learning Module Styles to Match Quiz Modal */
+#learningModule {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity 0.3s ease;
+}
+
+#learningModule > div {
+    width: 90%;
+    max-width: 600px;
+    background-color: #0a0a0a;
+    border: 1px solid #00ff9d;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+}
+
+.learning-header {
+    background-color: #111;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #00ff9d;
+}
+
+.learning-body {
+    background-color: #0a0a0a;
+    padding: 20px;
+}
+
+.progress-container {
+    margin-top: 10px;
+}
+
+#learningModule > div {
+    margin: 1rem auto;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#closeLearningBtn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 20px;
+    transition: color 0.2s;
+}
+
+#closeLearningBtn:hover {
+    color: #f56565;
+}
+
+@media (max-width: 768px) {
+    #learningModule > div {
+        max-width: 95%;
+        padding: 1rem;
+    }
+    
+    .interactive-element, 
+    .knowledge-check, 
+    .case-study,
+    .scenario,
+    .infographic,
+    .resources {
+        padding: 0.75rem;
+    }
+}
+
+/* Make sure all content is accessible on smaller screens */
+@media (max-height: 700px) {
+    #learningModule > div {
+        max-height: 90vh;
+        margin: 0 auto;
+    }
+}
+
+#warningPanel {
+    animation: slideUp 0.3s forwards;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#safetyTips {
+    animation: fadeInTip 0.5s forwards;
+}
+
+@keyframes fadeInTip {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Response option buttons */
+#responseOptionButtons button {
+    background-color: #374151;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+#responseOptionButtons button:hover {
+    background-color: #4b5563;
+}
+
+/* Chat simulation enhancements */
+.safety-score, .stage-indicator {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.25rem;
+    color: #ffcc00;
+}
+
+.avatar {
+    position: relative;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #1e1e1e, #292929);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.avatar-circle.upset {
+    background: linear-gradient(145deg, #3d1818, #2a1010);
+}
+
+.avatar-circle.happy {
+    background: linear-gradient(145deg, #193d18, #102a10);
+}
+
+.avatar-circle.manipulative {
+    background: linear-gradient(145deg, #3d1837, #2a1025);
+}
+
+#feedbackSafe, #feedbackUnsafe {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+#warningDetails {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+#warningDetails.expanded {
+    max-height: 200px;
+}
+
+#scenarioSummary {
+    animation: fadeInDown 0.5s ease-out;
+}
+
+.final-score {
+    font-size: 1.25rem;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.unsafe {
+    border-left: 3px solid #f44336;
+}
+
+.message.safe {
+    border-left: 3px solid #4caf50;
+}
+
+.response-option {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.response-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.response-option .hint-icon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.75rem;
+}
+
+.response-option:hover .hint-icon {
+    color: rgba(255,255,255,0.7);
+}
+
+#loadingScreen {
+    transition: opacity 0.5s ease;
 }

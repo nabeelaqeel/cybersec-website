@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen">
-    <!-- Loading Screen -->
+<body class="bg-gray-900 text-gray-100 min-h-screen">    <!-- Loading Screen -->
     <div id="loadingScreen" class="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-center">
         <div class="glitch text-4xl md:text-6xl font-bold mb-8" data-text="CYBER_SHIELD">CYBER_SHIELD</div>
         <div class="w-64 md:w-96 hacker-terminal p-4 rounded mb-4">
@@ -21,6 +20,7 @@
         <div class="w-64 md:w-96 h-1 bg-gray-700 rounded overflow-hidden">
             <div class="progress-bar"></div>
         </div>
+        <button id="skipIntroBtn" class="mt-6 text-gray-500 hover:text-gray-300 text-sm opacity-0 animate-fade-in" style="animation-delay: 2s">Skip Intro</button>
     </div>
 
     <!-- Main App -->
@@ -211,23 +211,207 @@
             </section>
         </main>
 
-        <!-- Chat Simulation Modal -->
-        <div id="chatModal" class="chat-modal">
+        <!-- Chat Simulation Modal -->        <div id="chatModal" class="chat-modal">
             <div class="chat-box">
                 <div class="chat-header">
-                    <h3 class="text-xl font-bold text-green-400">Chat Simulation</h3>
-                    <button id="closeChatBtn" class="close-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="flex items-center">
+                        <div class="mr-2 w-3 h-3 bg-green-500 rounded-full"></div>
+                        <h3 class="text-xl font-bold text-green-400">Chat Simulation</h3>
+                    </div>
+                    <div class="flex items-center">
+                        <button id="reportChatBtn" class="text-red-400 hover:text-red-500 mr-4">
+                            <i class="fas fa-flag"></i>
+                        </button>
+                        <button id="helpChatBtn" class="text-blue-400 hover:text-blue-500 mr-4">
+                            <i class="fas fa-question-circle"></i>
+                        </button>
+                        <button id="closeChatBtn" class="close-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="chat-container p-4" id="chatMessages">
-                    <!-- Messages will appear here -->
+
+                <!-- Scenario Selection (initially visible) -->
+                <div id="scenarioSelection" class="p-4 bg-gray-900">
+                    <h3 class="text-lg font-semibold mb-3">Choose a Chat Scenario:</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="scenario-card p-3 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 border border-transparent hover:border-green-500" data-scenario="gaming">
+                            <h4 class="font-bold">🎮 Gaming Friend</h4>
+                            <p class="text-sm text-gray-400">Someone you met in an online game wants to chat outside the platform</p>
+                        </div>
+                        <div class="scenario-card p-3 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 border border-transparent hover:border-green-500" data-scenario="social">
+                            <h4 class="font-bold">📱 Social Media</h4>
+                            <p class="text-sm text-gray-400">A stranger sends you a friend request and messages you</p>
+                        </div>
+                        <div class="scenario-card p-3 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 border border-transparent hover:border-green-500" data-scenario="talent">
+                            <h4 class="font-bold">🌟 Talent Scout</h4>
+                            <p class="text-sm text-gray-400">Someone claims to be a talent scout interested in your content</p>
+                        </div>
+                        <div class="scenario-card p-3 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 border border-transparent hover:border-green-500" data-scenario="romantic">
+                            <h4 class="font-bold">❤️ Romantic Interest</h4>
+                            <p class="text-sm text-gray-400">Someone older shows romantic interest in you online</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center text-sm text-gray-400">
+                        <p>Practice identifying warning signs and responding safely to potential predators</p>
+                    </div>
                 </div>
-                <div class="p-4 border-t border-gray-700">
-                    <div class="flex">
-                        <input type="text" id="chatInput" class="flex-grow bg-gray-800 border border-gray-700 rounded-l px-4 py-2 focus:outline-none focus:border-green-500" placeholder="Type your message...">
-                        <button id="sendChatBtn" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-r">
-                            <i class="fas fa-paper-plane"></i>
+                
+                <!-- Chat Interface (initially hidden) -->
+                <div id="chatInterface" class="hidden">
+                    <div class="chat-info bg-yellow-900 bg-opacity-50 p-2 text-xs text-yellow-300 text-center flex justify-between items-center">
+                        <div>
+                            This is a simulation. Practice identifying red flags and responding safely.
+                            <button id="resetChatBtn" class="underline ml-1">Reset</button>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="safety-score mr-2">Safety: <span id="safetyScore">0</span></div>
+                            <div class="stage-indicator">Stage: <span id="stageIndicator">1</span>/3</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-container p-4" id="chatMessages">
+                        <!-- Messages will appear here -->
+                    </div>
+                    
+                    <div id="typingIndicator" class="px-4 pb-2 hidden">
+                        <div class="text-left text-xs text-gray-400 flex items-center">
+                            <div class="typing-dots mr-2">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            Stranger is typing...
+                        </div>
+                    </div>
+                    
+                    <!-- Warning Panel (shows when red flags are detected) -->
+                    <div id="warningPanel" class="hidden px-4 py-3 bg-red-900 bg-opacity-50 border border-red-700">
+                        <div class="flex items-start">
+                            <div class="text-red-500 mr-2 text-xl"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div>
+                                <h4 class="font-bold text-red-400">Red Flag Detected</h4>
+                                <p id="warningText" class="text-sm text-red-300">This message contains warning signs.</p>
+                                <div id="warningDetails" class="mt-2 text-xs text-red-200 bg-red-900 p-2 rounded">
+                                    <p class="font-semibold">Why this is concerning:</p>
+                                    <p id="warningExplanation">Detailed explanation will appear here.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                            <button id="warningIgnoreBtn" class="bg-gray-700 hover:bg-gray-600 text-white py-1 px-2 rounded">Ignore Warning</button>
+                            <button id="warningHelpBtn" class="bg-blue-700 hover:bg-blue-600 text-white py-1 px-2 rounded">Get Help</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Response Feedback (appears after user selects an option) -->
+                    <div id="responseFeedback" class="hidden p-3 mb-2">
+                        <div id="feedbackSafe" class="hidden p-2 bg-green-900 bg-opacity-50 border border-green-700 rounded">
+                            <div class="flex items-start">
+                                <div class="text-green-500 mr-2 text-xl"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-green-400">Safe Response!</h4>
+                                    <p id="feedbackSafeText" class="text-sm text-green-300">Good job! You made a safe choice.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="feedbackUnsafe" class="hidden p-2 bg-red-900 bg-opacity-50 border border-red-700 rounded">
+                            <div class="flex items-start">
+                                <div class="text-red-500 mr-2 text-xl"><i class="fas fa-exclamation-circle"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-red-400">Unsafe Response!</h4>
+                                    <p id="feedbackUnsafeText" class="text-sm text-red-300">This response might put you at risk.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Response Options (sometimes appears instead of free text) -->
+                    <div id="responseOptions" class="hidden p-4 border-t border-gray-700">
+                        <p class="text-sm text-gray-400 mb-2">Choose how to respond:</p>
+                        <div class="grid grid-cols-1 gap-2" id="responseOptionButtons">
+                            <!-- Response buttons will be added here -->
+                        </div>
+                    </div>
+                    
+                    <!-- End Scenario Summary (appears at end) -->
+                    <div id="scenarioSummary" class="hidden p-4 bg-indigo-900 bg-opacity-50">
+                        <div class="text-center mb-3">
+                            <h3 class="text-xl font-bold text-indigo-300">Scenario Complete</h3>
+                            <div class="final-score text-lg mt-2">
+                                Safety Score: <span id="finalScore" class="text-yellow-300">0</span>/3
+                            </div>
+                        </div>
+                        
+                        <div class="summary-content mb-3">
+                            <h4 class="font-semibold text-indigo-200 mb-1">Red Flags Identified:</h4>
+                            <ul id="redFlagsList" class="list-disc pl-5 text-sm">
+                                <!-- Will be populated by JS -->
+                            </ul>
+                        </div>
+                        
+                        <div class="summary-content mb-3">
+                            <h4 class="font-semibold text-indigo-200 mb-1">Key Lessons:</h4>
+                            <div id="scenarioLessons" class="text-sm">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center gap-3 mt-4">
+                            <button id="tryAnotherBtn" class="bg-indigo-700 hover:bg-indigo-600 text-white py-2 px-4 rounded">
+                                Try Another Scenario
+                            </button>
+                            <button id="replayScenarioBtn" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded">
+                                Replay This Scenario
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Regular Chat Input -->
+                    <div id="chatInputArea" class="p-4 border-t border-gray-700">
+                        <div class="flex">
+                            <input type="text" id="chatInput" class="flex-grow bg-gray-800 border border-gray-700 rounded-l px-4 py-2 focus:outline-none focus:border-green-500" placeholder="Type your message...">
+                            <button id="sendChatBtn" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-r">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Emotional Response UI -->
+                    <div id="emotionalResponse" class="hidden px-4 pb-2">
+                        <div class="stranger-emotions flex items-center p-2 bg-gray-800 rounded">
+                            <div id="strangerAvatar" class="avatar mr-3">
+                                <div class="avatar-circle">
+                                    <i id="avatarEmoji" class="text-xl">🙂</i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium" id="strangerName">Stranger</div>
+                                <div class="text-xs text-gray-400" id="emotionText">seems friendly</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Safety Tips (shows at the right time) -->
+                    <div id="safetyTips" class="hidden p-4 bg-blue-900 bg-opacity-30 border-t border-blue-800">
+                        <h4 class="font-bold text-blue-400 mb-2"><i class="fas fa-shield-alt mr-1"></i> Safety Tip</h4>
+                        <p id="tipContent" class="text-sm">Remember to never share personal information with strangers online.</p>
+                    </div>
+                </div>
+
+                <!-- Help Modal (initially hidden) -->
+                <div id="helpContent" class="hidden p-4 bg-gray-900">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-400">How to Stay Safe in Online Chats:</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-sm">
+                        <li>Never share personal information (full name, address, school)</li>
+                        <li>Be alert if someone asks for photos or to meet in person</li>
+                        <li>Be cautious of excessive compliments or special attention</li>
+                        <li>Watch for attempts to isolate you or keep secrets</li>
+                        <li>Trust your instincts - if something feels off, it probably is</li>
+                    </ul>
+                    <div class="mt-3 text-center">
+                        <button id="closeHelpBtn" class="bg-blue-700 hover:bg-blue-600 text-white py-1 px-4 rounded text-sm">
+                            Got it
                         </button>
                     </div>
                 </div>
@@ -262,16 +446,21 @@
         
     </div>
 
-    <!-- Learning Module Modal -->
-    <div id="learningModule" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-900 rounded-lg shadow-lg p-8 w-full max-w-3xl relative">
-            <button id="closeLearningBtn" class="absolute top-4 right-4 text-gray-400 hover:text-red-400 text-2xl font-bold">&times;</button>
-            
-            <!-- Progress Bar -->
-            <div class="progress-container mb-6 bg-gray-800 rounded-full h-3">
-                <div id="moduleProgressBar" class="h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full" style="width: 16.6%"></div>
-                <p class="text-xs text-center mt-1 text-gray-400">Module <span id="currentModuleNum">1</span> of 6</p>
+    <!-- Learning Module Modal -->    <div id="learningModule" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden overflow-auto py-6">
+        <div class="w-full max-w-2xl relative my-4 mx-4">
+            <div class="learning-header bg-gray-900 p-4 flex justify-between items-center border-b border-green-500">
+                <h3 class="text-xl font-bold text-green-400">Learning Modules</h3>
+                <button id="closeLearningBtn" class="text-gray-400 hover:text-red-400 text-2xl font-bold">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+            
+            <div class="learning-body bg-gray-900 p-6">
+                <!-- Progress Bar -->
+                <div class="progress-container mb-6 bg-gray-800 rounded-full h-3">
+                    <div id="moduleProgressBar" class="h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full" style="width: 16.6%"></div>
+                    <p class="text-xs text-center mt-1 text-gray-400">Module <span id="currentModuleNum">1</span> of 6</p>
+                </div>
 
             <!-- Module 1 -->
             <div id="module1" class="module-step">
@@ -777,9 +966,9 @@
                 </div>
                 
                 <div class="flex justify-between mt-6">
-                    <button id="backToModule5" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
-                    <button id="closeLearningBtnFinish" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">Complete Training</button>
+                    <button id="backToModule5" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition duration-200 flex items-center"><i class="fas fa-arrow-left mr-2"></i> Previous</button>                    <button id="closeLearningBtnFinish" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">Complete Training</button>
                 </div>
+            </div>
             </div>
         </div>
     </div>
