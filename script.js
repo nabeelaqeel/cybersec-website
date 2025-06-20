@@ -62,12 +62,12 @@ document.getElementById('closeProfileBtn').addEventListener('click', function() 
 });
 
 // Leaderboard modal functionality
-document.getElementById('leaderboardBtn').addEventListener('click', function() {
-    document.getElementById('leaderboardModal').classList.remove('hidden');
-});
-document.getElementById('closeLeaderboardBtn').addEventListener('click', function() {
-    document.getElementById('leaderboardModal').classList.add('hidden');
-});
+// document.getElementById('leaderboardBtn').addEventListener('click', function() {
+//     document.getElementById('leaderboardModal').classList.remove('hidden');
+// });
+// document.getElementById('closeLeaderboardBtn').addEventListener('click', function() {
+//     document.getElementById('leaderboardModal').classList.add('hidden');
+// });
 
 
 // Avatar edit and change functionality
