@@ -52,6 +52,15 @@ const redFlagsList = document.getElementById('redFlagsList');
 const scenarioLessons = document.getElementById('scenarioLessons');
 const tryAnotherBtn = document.getElementById('tryAnotherBtn');
 const replayScenarioBtn = document.getElementById('replayScenarioBtn');
+const quickQuizBtn = document.getElementById('quickQuizBtn');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizOptions = document.getElementById('quizOptions');
+const quizProgressBar = document.getElementById('quizProgressBar');
+const quizResult = document.getElementById('quizResult');
+const scoreValue = document.getElementById('scoreValue');
+const totalQuestions = document.getElementById('totalQuestions');
+const resultFeedback = document.getElementById('resultFeedback');
+const quizFinishBtn = document.getElementById('quizFinishBtn');
 
 // Global Variables
 let currentLearningPage = 0;
@@ -63,6 +72,8 @@ let userResponses = [];
 let detectedFlags = [];
 let safetyPoints = 0;
 let chatCompleted = false;
+let currentQuizQuestion = 0;
+let quizScore = 0;
 
 // Loading screen transition
 document.addEventListener('DOMContentLoaded', function() {
@@ -413,8 +424,8 @@ const chatScenarios = {
         icon: "🌟",
         stranger: "TalentFinderPro",
         initialMessages: [
-            { text: "Hi there! I'm a talent scout for ModelSearch Agency. I came across your profile and you have exactly the look we're searching for!", delay: 1000, flag: true },
-            { text: "We work with major brands and could offer you some great opportunities. Would you be interested in hearing more?", delay: 3000, flag: false }
+            { sender: "stranger", text: "Hi there! I'm a talent scout for ModelSearch Agency. I came across your profile and you have exactly the look we're searching for!", delay: 1000, flag: true },
+            { sender: "stranger", text: "We work with major brands and could offer you some great opportunities. Would you be interested in hearing more?", delay: 3000, flag: false }
         ],
         responses: {
             stage1: [
@@ -1217,4 +1228,200 @@ replayScenarioBtn.addEventListener('click', function() {
     // Replay the current scenario
     startChatScenario(Object.keys(chatScenarios).find(key => chatScenarios[key] === currentScenario));
 });
+
+// Quick Quiz Functionality
+// Quiz questions data
+const quizData = [
+    {
+        question: "Which of the following is a warning sign of online grooming?",
+        options: [
+            "Asking about your favorite video games",
+            "Requesting to keep conversations secret from parents",
+            "Sharing information about their school",
+            "Talking about a popular TV show"
+        ],
+        correct: 1,
+        explanation: "Predators often request secrecy to isolate victims from their support networks."
+    },
+    {
+        question: "What should you do if someone online makes you feel uncomfortable?",
+        options: [
+            "Keep talking to them to be polite",
+            "Share minimal personal information",
+            "Block them and tell a trusted adult",
+            "Give them another chance"
+        ],
+        correct: 2,
+        explanation: "Your safety is the priority. Block suspicious contacts and tell a trusted adult."
+    },
+    {
+        question: "Which information is safest to share with someone you only know online?",
+        options: [
+            "Your school name",
+            "Your general interests and hobbies",
+            "Your home address",
+            "Photos of yourself and friends"
+        ],
+        correct: 1,
+        explanation: "General interests are relatively safe to share, while specific personal details are not."
+    },
+    {
+        question: "If an online friend offers you gifts or money, you should:",
+        options: [
+            "Accept if it's something you really want",
+            "Give them your address for delivery",
+            "Decline and tell a trusted adult",
+            "Ask for more expensive gifts"
+        ],
+        correct: 2,
+        explanation: "Predators often use gifts as part of the grooming process. Always decline and report."
+    },
+    {
+        question: "What does 'flattery' mean in the context of online grooming?",
+        options: [
+            "Making normal compliments",
+            "Using excessive praise to manipulate",
+            "Being friendly and supportive",
+            "Telling jokes to make someone laugh"
+        ],
+        correct: 1,
+        explanation: "Predators use excessive compliments to make targets feel special and lower their defenses."
+    }
+];
+
+// Event listener for Quick Quiz button
+quickQuizBtn.addEventListener('click', function() {
+    quizModal.classList.add('active');
+    startQuiz();
+});
+
+// Close quiz modal
+closeQuizBtn.addEventListener('click', function() {
+    quizModal.classList.remove('active');
+    // Reset for next time
+    currentQuizQuestion = 0;
+    quizScore = 0;
+});
+
+// Quiz finish button
+quizFinishBtn.addEventListener('click', function() {
+    quizModal.classList.remove('active');
+    // Reset for next time
+    currentQuizQuestion = 0;
+    quizScore = 0;
+});
+
+// Global quiz variables (already declared)
+
+// Start quiz function
+function startQuiz() {
+    // Reset quiz state
+    currentQuizQuestion = 0;
+    quizScore = 0;
+    
+    // Clear any existing feedback classes
+    resultFeedback.classList.remove('text-green-400', 'text-yellow-400', 'text-red-400');
+    
+    // Show quiz content, hide result
+    quizContent.style.display = 'block';
+    quizResult.style.display = 'none';
+    
+    // Load first question
+    loadQuestion();
+}
+
+// Load question function
+function loadQuestion() {
+    // Clear previous options
+    quizOptions.innerHTML = '';
+    
+    // Get current question
+    const currentQuestion = quizData[currentQuizQuestion];
+    
+    // Set question text
+    quizQuestion.textContent = currentQuestion.question;
+    
+    // Create option buttons
+    currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.classList.add('quiz-option');
+        button.textContent = option;
+        button.dataset.index = index;
+        button.addEventListener('click', checkAnswer);
+        quizOptions.appendChild(button);
+    });
+    
+    // Update progress bar
+    const progress = ((currentQuizQuestion + 1) / quizData.length) * 100;
+    quizProgressBar.style.width = `${progress}%`;
+}
+
+// Check answer function
+function checkAnswer(e) {
+    const selectedOption = parseInt(e.target.dataset.index);
+    const currentQuestion = quizData[currentQuizQuestion];
+    
+    // Disable all options after selection
+    document.querySelectorAll('.quiz-option').forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('disabled');
+    });
+    
+    // Highlight correct and incorrect answers
+    document.querySelectorAll('.quiz-option').forEach((btn, index) => {
+        if (index === currentQuestion.correct) {
+            btn.classList.add('correct');
+        } else if (index === selectedOption) {
+            btn.classList.add('incorrect');
+        }
+    });
+    
+    // Update score if correct
+    if (selectedOption === currentQuestion.correct) {
+        quizScore++;
+    }
+    
+    // Show explanation
+    const explanation = document.createElement('p');
+    explanation.classList.add('quiz-explanation', 'mt-3', 'text-sm', 'text-gray-300', 'bg-gray-800', 'p-2', 'rounded');
+    explanation.textContent = currentQuestion.explanation;
+    quizOptions.appendChild(explanation);
+    
+    // Move to next question after delay
+    setTimeout(() => {
+        currentQuizQuestion++;
+        
+        // Check if quiz is complete
+        if (currentQuizQuestion < quizData.length) {
+            loadQuestion();
+        } else {
+            showQuizResult();
+        }
+    }, 2000);
+}
+
+// Show quiz result function
+function showQuizResult() {
+    // Hide quiz content, show result
+    quizContent.style.display = 'none';
+    quizResult.style.display = 'block';
+    
+    // Update score
+    scoreValue.textContent = quizScore;
+    totalQuestions.textContent = quizData.length;
+    
+    // Set feedback based on score
+    const percentage = (quizScore / quizData.length) * 100;
+    
+    if (percentage >= 80) {
+        resultFeedback.textContent = "Excellent! You're well-equipped to stay safe online.";
+        resultFeedback.classList.add('text-green-400');
+    } else if (percentage >= 60) {
+        resultFeedback.textContent = "Good job! You know the basics, but review some safety guidelines.";
+        resultFeedback.classList.add('text-yellow-400');
+    } else {
+        resultFeedback.textContent = "You should review online safety guidelines to better protect yourself.";
+        resultFeedback.classList.add('text-red-400');
+    }
+}
 
