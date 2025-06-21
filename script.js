@@ -1311,6 +1311,22 @@ quizFinishBtn.addEventListener('click', function() {
     quizScore = 0;
 });
 
+// Function to update the progress bar in the learning module
+function updateProgressBar(moduleNumber) {
+    const totalModules = 6;
+    const progressPercentage = (moduleNumber / totalModules) * 100;
+    const moduleProgressBar = document.getElementById('moduleProgressBar');
+    const currentModuleNum = document.getElementById('currentModuleNum');
+    
+    if (moduleProgressBar) {
+        moduleProgressBar.style.width = `${progressPercentage}%`;
+    }
+    
+    if (currentModuleNum) {
+        currentModuleNum.textContent = moduleNumber;
+    }
+}
+
 // Global quiz variables (already declared)
 
 // Start quiz function
@@ -1350,10 +1366,9 @@ function loadQuestion() {
         button.addEventListener('click', checkAnswer);
         quizOptions.appendChild(button);
     });
-    
-    // Update progress bar
+      // Update progress bar
     const progress = ((currentQuizQuestion + 1) / quizData.length) * 100;
-    quizProgressBar.style.width = `${progress}%`;
+    document.getElementById('quizProgressBar').style.width = `${progress}%`;
 }
 
 // Check answer function
